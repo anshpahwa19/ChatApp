@@ -1,0 +1,31 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="66.2653" height="66.2653" viewBox="0 0 66.2653 66.2653" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Gradient">
+<g id="Eclipse" filter="url(#filter0_f_0_238)">
+<circle cx="33.1327" cy="33.1327" r="22.2695" fill="url(#paint0_linear_0_238)"/>
+</g>
+<g id="Planet" filter="url(#filter1_f_0_238)">
+<circle cx="40.7905" cy="24.4971" r="16.2947" fill="url(#paint1_linear_0_238)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_238" x="-1.90732e-07" y="-2.38419e-07" width="66.2653" height="66.2653" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="5.43158" result="effect1_foregroundBlur_0_238"/>
+</filter>
+<filter id="filter1_f_0_238" x="19.0642" y="2.77074" width="43.4527" height="43.4527" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="2.71579" result="effect1_foregroundBlur_0_238"/>
+</filter>
+<linearGradient id="paint0_linear_0_238" x1="33.1327" y1="10.8632" x2="33.1327" y2="55.4021" gradientUnits="userSpaceOnUse">
+<stop offset="0.0673077" stop-color="#50B7AA"/>
+<stop offset="0.735577" stop-color="#00CFA6"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_238" x1="40.7905" y1="8.20233" x2="40.7905" y2="40.7918" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00C18E"/>
+<stop offset="0.9999" stop-color="#8B7F73" stop-opacity="0"/>
+<stop offset="1" stop-color="#00D9D2"/>
+</linearGradient>
+</defs>
+</svg>

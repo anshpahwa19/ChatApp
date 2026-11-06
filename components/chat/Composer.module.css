@@ -1,0 +1,130 @@
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  height: 88px;
+  padding: 12px 15px;
+  border-top: 1px solid var(--stroke-disabled);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(291.25px);
+  -webkit-backdrop-filter: blur(291.25px);
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 11px;
+  width: 100%;
+  max-width: 362px;
+  height: 40px;
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  max-width: 263px;
+}
+
+.circle36,
+.circle40 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 74px;
+  background: var(--surface-blue-light);
+}
+
+.circle36 {
+  width: 36px;
+  height: 36px;
+}
+
+.circle40 {
+  width: 40px;
+  height: 40px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px 0 13px;
+  border: 1px solid var(--stroke-disabled);
+  border-radius: 45px;
+  background: var(--surface-white);
+}
+
+.field:focus-within {
+  border-color: var(--brand-500);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-primary);
+}
+
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.sticker {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* AI button: white circle with the gradient blob asset cropped inside (node 1:2425). */
+.ai {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 36px;
+  background: var(--surface-white);
+}
+
+.aiGradient {
+  position: absolute;
+  /* Figma: frame at (-3.2, -2.4) with the SVG overflowing by -17.38% / -23.5%. */
+  left: calc(-3.2px - 10.862px);
+  top: calc(-2.4px - 8.203px);
+  max-width: none;
+}
+
+.aiIcon {
+  position: absolute;
+  /* Figma: 17.6px frame at (11.2, 11.2) with the SVG overflowing by -9.09% / -23.02%. */
+  left: calc(11.2px - 4.052px);
+  top: calc(11.2px - 1.6px);
+  max-width: none;
+}

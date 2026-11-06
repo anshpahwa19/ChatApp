@@ -1,0 +1,134 @@
+.device {
+  background: var(--surface-app);
+}
+
+.scroller {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 120px;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Large green header (node 1:1932). The background is the exact gradient stack from Figma. */
+.hero {
+  position: relative;
+  height: 221px;
+  padding: 65px 1px 16px 20px;
+  border-radius: 0 0 24px 24px;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 394 221' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(25.558 3.3922 -4.5333 14.336 9.85 32.243)'><stop stop-color='rgba(125,168,170,1)' offset='0'/><stop stop-color='rgba(125,168,170,0.48)' offset='0.48'/><stop stop-color='rgba(125,168,170,0)' offset='1'/></radialGradient></defs></svg>"),
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 394 221' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(35.46 0 0 18.785 208.82 99.451)'><stop stop-color='rgba(6,94,63,1)' offset='0'/><stop stop-color='rgba(23,111,92,0.82)' offset='0.5'/><stop stop-color='rgba(46,106,45,0)' offset='1'/></radialGradient></defs></svg>"),
+    linear-gradient(90deg, #296072 0%, #296072 100%);
+  background-size: 100% 100%;
+}
+
+.heroStatus {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 15px);
+  max-width: 359px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-system);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: normal;
+  color: var(--text-white);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* "Glass Effect" pill holding the More and Search icons (node 1:1937). */
+.glassPill {
+  display: flex;
+  align-items: center;
+  width: 96px;
+  height: 44px;
+  padding: 0 10.5px 0 13.5px;
+  border-radius: 1000px;
+  box-shadow:
+    inset 0 40px 10px -40px #282828,
+    inset 0 -40px 10px -40px #282828,
+    inset 0 40px 30px -40px #e6e6e6;
+}
+
+.pillButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 44px;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 36px;
+  background: #fff;
+}
+
+/* Filter chips + list (node 1:1991). */
+.list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  height: 1px;
+  margin: 8px 20px 8px 80px;
+  background: var(--surface-divider);
+}
+
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Soft "Scroll Edge Effect" behind the floating tab bar. */
+.bottomFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 151px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(247, 255, 250, 0) 0%, rgba(247, 255, 250, 0.85) 100%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
+}

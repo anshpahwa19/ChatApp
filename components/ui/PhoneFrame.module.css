@@ -1,0 +1,27 @@
+.stage {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.device {
+  position: relative;
+  width: 100%;
+  max-width: 393px;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 500px) {
+  .stage {
+    padding: 24px;
+  }
+
+  .device {
+    height: min(856px, calc(100dvh - 48px));
+    border-radius: var(--radius-device);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+  }
+}

@@ -1,0 +1,11 @@
+.ticks {
+  display: inline-flex;
+  align-items: center;
+  width: 16px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.first {
+  margin-right: -4.618px;
+}

@@ -1,0 +1,50 @@
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 0 16px 0 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+  height: 29px;
+  padding: 4px 12px;
+  border-radius: 68px;
+  border: 1px solid var(--stroke-disabled);
+  background: var(--surface-white);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.active {
+  background: var(--brand-100);
+  border-color: var(--brand-700);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background: var(--brand-500);
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 12px;
+}

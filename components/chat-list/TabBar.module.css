@@ -1,0 +1,72 @@
+.wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  z-index: 6;
+  padding: 16px 21px 25px;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  height: 54px;
+  margin: 0 4px;
+  padding: 0 2px;
+}
+
+/* Web stand-in for the iOS "Liquid Glass" material behind the tabs. */
+.glass {
+  position: absolute;
+  inset: -4px -4px 0 -4px;
+  border-radius: 1000px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow:
+    1.25px 0 0 -0.75px #d0d0d0,
+    -1.25px 0 0 -0.75px #d0d0d0,
+    0 0 0 0.5px #e8e8e8,
+    0 8px 15px rgba(0, 0, 0, 0.02);
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  margin-right: -8px;
+  padding: 6px 8px 7px;
+}
+
+.tab:last-child {
+  margin-right: 0;
+}
+
+.selection {
+  position: absolute;
+  inset: 0 -2.4px 0 -2px;
+  border-radius: 100px;
+  background: #ededed;
+}
+
+.icon,
+.label {
+  position: relative;
+}
+
+.label {
+  width: 100%;
+  font-family: var(--font-system);
+  font-weight: 590;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: var(--text-primary);
+  white-space: nowrap;
+}

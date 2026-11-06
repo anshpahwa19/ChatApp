@@ -1,0 +1,54 @@
+.avatar {
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.photo {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 0.5px);
+  transform: translate(-50%, -50%);
+}
+
+.initials,
+.contact,
+.stylisedAsset {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 51px;
+  height: 51px;
+  border-radius: 9999px;
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 21.25px;
+  line-height: 34px;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #eecbe8, #e898dc);
+}
+
+.community {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #debff4, #ad79d2);
+}
+
+.flip {
+  transform: scaleX(-1);
+}

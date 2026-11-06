@@ -1,0 +1,7 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="92.0034" height="12" viewBox="0 0 92.0034 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Progress Bar Container">
+<path id="Remaining Bar" d="M1.00342 6C1.00342 5.44772 1.45113 5 2.00342 5H91.0034C91.5557 5 92.0034 5.44772 92.0034 6V6C92.0034 6.55228 91.5557 7 91.0034 7H2.00342C1.45113 7 1.00342 6.55228 1.00342 6V6Z" fill="#E5E7EB"/>
+<path id="Completed Bar" d="M1.16234 6.5C1.16234 5.94772 1.61005 5.5 2.16234 5.5H2.53127C3.08356 5.5 3.53127 5.94772 3.53127 6.5V6.5C3.53127 7.05228 3.08356 7.5 2.53127 7.5H2.16234C1.61005 7.5 1.16234 7.05228 1.16234 6.5V6.5Z" fill="white"/>
+<circle id="Ellipse 70902" cx="6" cy="6" r="6" fill="white"/>
+</g>
+</svg>

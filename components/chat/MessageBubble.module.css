@@ -1,0 +1,181 @@
+.line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lineMine {
+  justify-content: flex-end;
+}
+
+.bubble {
+  position: relative;
+  padding: 8px 12px;
+}
+
+.theirs {
+  max-width: 244px;
+  background: var(--surface-white);
+  color: var(--text-secondary);
+  border-radius: var(--radius-bubble) var(--radius-bubble) var(--radius-bubble) var(--radius-bubble-tail);
+}
+
+.mine {
+  max-width: 303px;
+  background: var(--brand-600);
+  color: var(--text-white);
+  border-radius: var(--radius-bubble) var(--radius-bubble) var(--radius-bubble-tail) var(--radius-bubble);
+}
+
+.bordered {
+  border: 1px solid var(--stroke-50);
+}
+
+.compact {
+  padding: 8px 16px;
+}
+
+.text {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+
+/* Timestamp + ticks. */
+.metaRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  height: 10px;
+  color: var(--text-secondary);
+}
+
+.metaLight {
+  color: var(--text-timestamp-light);
+}
+
+.time {
+  font-family: var(--font-timestamp);
+  font-size: 10px;
+  line-height: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The bordered reply bubble uses the larger body-font timestamp from the design. */
+.metaPlain .time {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.metaPlain {
+  height: 14px;
+}
+
+.spacer {
+  display: inline-block;
+  width: 52px;
+  height: 1px;
+}
+
+.spacerWide {
+  width: 68px;
+}
+
+.inlineMeta {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  display: flex;
+}
+
+.compact .inlineMeta {
+  right: 16px;
+  bottom: 13px;
+}
+
+.reply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 36px;
+  background: rgba(15, 23, 43, 0.2);
+}
+
+/* Voice note (component "Voice Note Receiver"). */
+.voice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 244px;
+  padding: 8px 12px;
+}
+
+.voiceRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+  padding-right: 1px;
+}
+
+.play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 36px;
+  background: var(--surface-blue-opacity);
+}
+
+.playLight {
+  background: var(--surface-white);
+}
+
+.play[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 128px;
+}
+
+.durationText {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--surface-white-opacity);
+}
+
+.speedOn {
+  background: rgba(255, 255, 255, 0.45);
+}

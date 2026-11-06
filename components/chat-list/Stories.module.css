@@ -1,0 +1,105 @@
+.row {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+  display: flex;
+  gap: 16px;
+  height: 80px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex-shrink: 0;
+  width: 56px;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 56px;
+}
+
+.own {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background: #fff;
+}
+
+.ownImage {
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.addBadge {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% + 21px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 30.857px;
+  border: 1px solid var(--text-white);
+  background: var(--brand-700);
+}
+
+.ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  padding: 4px 4px 2px;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+}
+
+/* Unseen stories use the segmented ring asset instead of the solid white border. */
+.unseen {
+  border: 0;
+}
+
+.unseenRing {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.unseen .avatar {
+  height: 48px;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-white);
+  white-space: nowrap;
+  margin-top: -1px;
+}
