@@ -36,9 +36,10 @@ export function AttachmentSheet({ open, onClose, onSelect }: Props) {
         aria-hidden={!open}
       >
         <div className={styles.grid}>
-          {OPTIONS.map((o) => (
+          {OPTIONS.map((o, i) => (
             <button
               key={o.id}
+              style={{ "--i": i } as React.CSSProperties}
               type="button"
               className={styles.option}
               tabIndex={open ? 0 : -1}

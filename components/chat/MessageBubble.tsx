@@ -56,7 +56,20 @@ export function MessageBubble({ message }: { message: BubbleMessage }) {
 function VoiceNote({ message }: { message: Extract<Message, { kind: "voice" }> }) {
   const [playing, setPlaying] = useState(false);
   const [fast, setFast] = useState(false);
+  const [runs, setRuns] = useState(0);
+  const [done, setDone] = useState(false);
   const mine = message.from === "me";
+  const [min, sec] = message.duration.split(":").map(Number);
+  const seconds = (min || 0) * 60 + (sec || 0);
+
+  function toggle() {
+    // First play, or replay after the clip finished: start a fresh fill.
+    if (!playing && (runs === 0 || done)) {
+      setRuns((r) => r + 1);
+      setDone(false);
+    }
+    setPlaying((p) => !p);
+  }
 
   return (
     <div className={`${styles.line} ${mine ? styles.lineMine : ""}`}>
@@ -67,13 +80,29 @@ function VoiceNote({ message }: { message: Extract<Message, { kind: "voice" }> }
             className={`${styles.play} ${message.listened ? styles.playLight : ""}`}
             aria-label={playing ? "Pause voice note" : "Play voice note"}
             aria-pressed={playing}
-            onClick={() => setPlaying((p) => !p)}
+            onClick={toggle}
           >
             <img src={message.listened ? "/figma/play-dark.svg" : "/figma/play-white.svg"} width={16} height={16} alt="" />
           </button>
           <div className={styles.duration}>
             <span className={styles.durationText}>{message.duration}</span>
-            <img src="/figma/progress.svg" width={92.0034} height={12} alt="" />
+            <span className={styles.track}>
+              <img src="/figma/progress.svg" width={92.0034} height={12} alt="" />
+              {/* Playback fill: runs for the clip length (halved at 2x) and pauses with the button. */}
+              <span
+                key={runs}
+                className={`${styles.fill} ${runs > 0 ? styles.fillRun : ""}`}
+                style={{
+                  animationDuration: `${seconds / (fast ? 2 : 1)}s`,
+                  animationPlayState: playing ? "running" : "paused",
+                }}
+                onAnimationEnd={() => {
+                  setPlaying(false);
+                  setDone(true);
+                }}
+                aria-hidden
+              />
+            </span>
           </div>
           <button
             type="button"

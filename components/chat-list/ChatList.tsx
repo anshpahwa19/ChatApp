@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { chats, stories } from "@/lib/data";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StatusBar } from "@/components/ui/StatusBar";
@@ -17,6 +17,14 @@ const COMPACT_HEADER_AT = 150;
 export function ChatList() {
   const [filter, setFilter] = useState<Filter>("all");
   const [compact, setCompact] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+
+  function onScroll(e: React.UIEvent<HTMLDivElement>) {
+    const top = e.currentTarget.scrollTop;
+    // 0 at rest, 1 once the hero has scrolled away; drives the hero's fade/parallax in CSS.
+    heroRef.current?.style.setProperty("--p", String(Math.min(1, Math.max(0, top / COMPACT_HEADER_AT))));
+    setCompact(top > COMPACT_HEADER_AT);
+  }
 
   const unreadCount = useMemo(() => chats.filter((c) => (c.unread ?? 0) > 0).length, []);
 
@@ -39,9 +47,9 @@ export function ChatList() {
     <PhoneFrame className={styles.device}>
       <div
         className={styles.scroller}
-        onScroll={(e) => setCompact(e.currentTarget.scrollTop > COMPACT_HEADER_AT)}
+        onScroll={onScroll}
       >
-        <header className={styles.hero}>
+        <header ref={heroRef} className={styles.hero}>
           <StatusBar tone="white" className={styles.heroStatus} />
           <div className={styles.heroInner}>
             <div className={styles.titleRow}>
@@ -66,9 +74,10 @@ export function ChatList() {
 
         <FilterChips value={filter} onChange={setFilter} unreadCount={unreadCount} />
 
-        <ul className={styles.list}>
+        {/* Keyed by filter so the rows replay their entrance when the filter changes. */}
+        <ul key={filter} className={styles.list}>
           {visible.map((chat, i) => (
-            <li key={chat.id}>
+            <li key={chat.id} style={{ "--i": i } as React.CSSProperties}>
               {i > 0 && <div className={styles.divider} aria-hidden />}
               <ChatRow chat={chat} />
             </li>

@@ -13,6 +13,14 @@
   object-position: bottom;
   opacity: 0.41;
   pointer-events: none;
+  animation: wallpaperIn 900ms var(--ease-out) backwards;
+}
+
+@keyframes wallpaperIn {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
 }
 
 .scroller {
@@ -46,6 +54,50 @@
 .dateItem {
   display: flex;
   justify-content: center;
+}
+
+/* Messages slide in from their own side with a soft spring; dates fade in place. */
+.messages > li {
+  animation-duration: 560ms;
+  animation-timing-function: var(--ease-spring);
+  animation-fill-mode: backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.messages > li[data-from="them"] {
+  animation-name: fromLeft;
+  transform-origin: 0 100%;
+}
+
+.messages > li[data-from="me"] {
+  animation-name: fromRight;
+  transform-origin: 100% 100%;
+}
+
+.messages > li.dateItem {
+  animation-name: dateIn;
+  animation-timing-function: var(--ease-out);
+}
+
+@keyframes fromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) translateY(8px) scale(0.92);
+  }
+}
+
+@keyframes fromRight {
+  from {
+    opacity: 0;
+    transform: translateX(18px) translateY(8px) scale(0.92);
+  }
+}
+
+@keyframes dateIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
 }
 
 .date {

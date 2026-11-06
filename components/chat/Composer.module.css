@@ -12,11 +12,20 @@
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(291.25px);
   -webkit-backdrop-filter: blur(291.25px);
+  animation: composerIn 620ms 120ms var(--ease-out) backwards;
+  transition: opacity 160ms ease, transform 260ms var(--ease-out);
+}
+
+@keyframes composerIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
 .hidden {
   opacity: 0;
-  transition: opacity 120ms ease;
+  transform: translateY(16px);
 }
 
 .inner {
@@ -46,6 +55,25 @@
   flex-shrink: 0;
   border-radius: 74px;
   background: var(--surface-blue-light);
+  transition: transform 240ms var(--ease-spring), background-color 200ms ease;
+}
+
+.circle36:hover,
+.circle40:hover {
+  background-color: rgba(15, 23, 43, 0.16);
+}
+
+.circle36:active,
+.circle40:active {
+  transform: scale(0.88);
+}
+
+.circle36 img {
+  transition: transform 320ms var(--ease-spring);
+}
+
+.circle36:hover img {
+  transform: rotate(-20deg);
 }
 
 .circle36 {
@@ -68,10 +96,12 @@
   border: 1px solid var(--stroke-disabled);
   border-radius: 45px;
   background: var(--surface-white);
+  transition: border-color 220ms ease, box-shadow 260ms var(--ease-out);
 }
 
 .field:focus-within {
   border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px rgba(50, 141, 136, 0.14);
 }
 
 .input {
@@ -94,6 +124,15 @@
 .sticker {
   display: flex;
   flex-shrink: 0;
+  transition: transform 300ms var(--ease-spring);
+}
+
+.sticker:hover {
+  transform: rotate(-12deg) scale(1.1);
+}
+
+.sticker:active {
+  transform: scale(0.85);
 }
 
 .actions {
@@ -111,6 +150,15 @@
   overflow: hidden;
   border-radius: 36px;
   background: var(--surface-white);
+  transition: transform 260ms var(--ease-spring);
+}
+
+.ai:hover {
+  transform: scale(1.06);
+}
+
+.ai:active {
+  transform: scale(0.9);
 }
 
 .aiGradient {
@@ -119,6 +167,14 @@
   left: calc(-3.2px - 10.862px);
   top: calc(-2.4px - 8.203px);
   max-width: none;
+  /* The gradient blob drifts slowly so the AI button feels alive. */
+  animation: blobDrift 7s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes blobDrift {
+  to {
+    transform: rotate(160deg) scale(1.06);
+  }
 }
 
 .aiIcon {
@@ -127,4 +183,16 @@
   left: calc(11.2px - 4.052px);
   top: calc(11.2px - 1.6px);
   max-width: none;
+  animation: twinkle 3.2s 1s var(--ease-in-out) infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  80%,
+  100% {
+    transform: none;
+  }
+  88% {
+    transform: rotate(18deg) scale(1.15);
+  }
 }

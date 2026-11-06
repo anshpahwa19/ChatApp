@@ -104,6 +104,7 @@
 }
 
 .reply {
+  transition: transform 260ms var(--ease-spring), background-color 200ms ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,6 +113,15 @@
   flex-shrink: 0;
   border-radius: 36px;
   background: rgba(15, 23, 43, 0.2);
+}
+
+.reply:hover {
+  background: rgba(15, 23, 43, 0.28);
+  transform: rotate(-12deg);
+}
+
+.reply:active {
+  transform: scale(0.85);
 }
 
 /* Voice note (component "Voice Note Receiver"). */
@@ -146,8 +156,70 @@
   background: var(--surface-white);
 }
 
-.play[aria-pressed="true"] {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+.play {
+  position: relative;
+  transition: transform 240ms var(--ease-spring);
+}
+
+.play:active {
+  transform: scale(0.88);
+}
+
+/* While playing, rings pulse out of the play button. */
+.play[aria-pressed="true"]::before,
+.play[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  animation: playRing 1.6s var(--ease-out) infinite;
+}
+
+.play[aria-pressed="true"]::after {
+  animation-delay: 0.8s;
+}
+
+@keyframes playRing {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+.track {
+  position: relative;
+  display: block;
+  width: 92.0034px;
+  height: 12px;
+}
+
+.fill {
+  position: absolute;
+  top: 5px;
+  left: 1px;
+  width: 91px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--surface-white);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.fillRun {
+  animation-name: fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .duration {
@@ -174,6 +246,11 @@
   flex-shrink: 0;
   border-radius: 8px;
   background: var(--surface-white-opacity);
+  transition: background-color 200ms ease, transform 240ms var(--ease-spring);
+}
+
+.speed:active {
+  transform: scale(0.85);
 }
 
 .speedOn {

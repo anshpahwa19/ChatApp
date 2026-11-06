@@ -15,9 +15,10 @@ type Props = { value: Filter; onChange: (f: Filter) => void; unreadCount: number
 export function FilterChips({ value, onChange, unreadCount }: Props) {
   return (
     <div className={styles.row} role="tablist" aria-label="Filter chats">
-      {FILTERS.map((f) => (
+      {FILTERS.map((f, i) => (
         <button
           key={f.id}
+          style={{ "--i": i } as React.CSSProperties}
           type="button"
           role="tab"
           aria-selected={value === f.id}

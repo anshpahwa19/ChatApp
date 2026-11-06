@@ -17,6 +17,15 @@
 .item {
   flex-shrink: 0;
   width: 56px;
+  animation: storyIn 560ms var(--ease-spring) backwards;
+  animation-delay: calc(140ms + var(--i, 0) * 60ms);
+}
+
+@keyframes storyIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.8);
+  }
 }
 
 .button {
@@ -25,6 +34,18 @@
   align-items: center;
   gap: 4px;
   width: 56px;
+}
+
+.button > span:first-child {
+  transition: transform 300ms var(--ease-spring);
+}
+
+.button:hover > span:first-child {
+  transform: scale(1.06);
+}
+
+.button:active > span:first-child {
+  transform: scale(0.92);
 }
 
 .own {
@@ -43,6 +64,7 @@
 }
 
 .addBadge {
+  animation: addPulse 2.8s 1.2s var(--ease-in-out) infinite;
   position: absolute;
   bottom: 0;
   left: calc(50% + 21px);
@@ -75,6 +97,14 @@
   position: absolute;
   top: 0;
   left: 0;
+  /* The segmented "new story" ring slowly turns. */
+  animation: ringSpin 14s linear infinite;
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .avatar {
@@ -102,4 +132,14 @@
   color: var(--text-white);
   white-space: nowrap;
   margin-top: -1px;
+}
+
+@keyframes addPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  40% {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35);
+  }
 }

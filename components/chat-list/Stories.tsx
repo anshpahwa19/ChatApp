@@ -4,8 +4,8 @@ import styles from "./Stories.module.css";
 export function Stories({ stories }: { stories: Story[] }) {
   return (
     <ul className={styles.row} aria-label="Stories">
-      {stories.map((story) => (
-        <li key={story.id} className={styles.item}>
+      {stories.map((story, i) => (
+        <li key={story.id} className={styles.item} style={{ "--i": i } as React.CSSProperties}>
           <button type="button" className={styles.button} aria-label={story.isOwn ? "Add story" : `${story.name}'s story`}>
             {story.isOwn ? (
               <span className={styles.own}>

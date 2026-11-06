@@ -19,6 +19,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+  const initialCount = useRef(conversation.messages.length);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -41,11 +42,13 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
 
       <div ref={scrollRef} className={styles.scroller}>
         <ol className={styles.messages} aria-label={`Conversation with ${conversation.name}`}>
-          {messages.map((m) => (
+          {messages.map((m, i) => (
             <li
               key={m.id}
               className={m.kind === "date" ? styles.dateItem : undefined}
               data-from={m.kind === "date" ? undefined : m.from}
+              // Initial history cascades in; messages sent later appear immediately.
+              style={{ "--d": i < initialCount.current ? `${160 + i * 55}ms` : "0ms" } as React.CSSProperties}
             >
               {m.kind === "date" ? <span className={styles.date}>{m.label}</span> : <MessageBubble message={m} />}
             </li>

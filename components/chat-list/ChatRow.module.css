@@ -4,10 +4,25 @@
   gap: 12px;
   padding: 4px 16px;
   width: 100%;
+  transition: background-color 200ms ease, transform 260ms var(--ease-spring);
 }
 
 .row:hover {
   background: rgba(33, 106, 94, 0.04);
+}
+
+.row:active {
+  background: rgba(33, 106, 94, 0.08);
+  transform: scale(0.985);
+}
+
+.row :global(img),
+.row > span:first-child {
+  transition: transform 300ms var(--ease-spring);
+}
+
+.row:hover > span:first-child {
+  transform: scale(1.04);
 }
 
 .row:focus-visible {
@@ -118,6 +133,19 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
+}
+
+/* Unread badges pop in just after their row arrives. */
+.badge {
+  animation: badgePop 520ms var(--ease-spring) backwards;
+  animation-delay: calc(420ms + min(var(--i, 0), 9) * 45ms);
+}
+
+@keyframes badgePop {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 }
 
 .wide {

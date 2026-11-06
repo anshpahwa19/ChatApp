@@ -38,6 +38,33 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  /* Scroll-linked: the hero content lifts and fades as the list scrolls (--p goes 0 -> 1). */
+  opacity: calc(1 - var(--p, 0) * 0.9);
+  transform: translateY(calc(var(--p, 0) * -14px)) scale(calc(1 - var(--p, 0) * 0.03));
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+}
+
+.title {
+  animation: titleIn 600ms var(--ease-out) backwards;
+}
+
+.actions {
+  animation: actionsIn 600ms 80ms var(--ease-out) backwards;
+}
+
+@keyframes titleIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes actionsIn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
 }
 
 .titleRow {
@@ -83,6 +110,16 @@
   justify-content: center;
   width: 36px;
   height: 44px;
+  border-radius: 999px;
+  transition: transform 220ms var(--ease-spring), background-color 200ms ease;
+}
+
+.pillButton:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.pillButton:active {
+  transform: scale(0.86);
 }
 
 .addButton {
@@ -93,6 +130,23 @@
   height: 44px;
   border-radius: 36px;
   background: #fff;
+  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
+}
+
+.addButton img {
+  transition: transform 420ms var(--ease-spring);
+}
+
+.addButton:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.addButton:hover img {
+  transform: rotate(90deg);
+}
+
+.addButton:active {
+  transform: scale(var(--press-scale));
 }
 
 /* Filter chips + list (node 1:1991). */
@@ -102,6 +156,19 @@
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+/* Rows rise in one after another; the stagger is capped so long lists don't lag. */
+.list > li {
+  animation: rowIn 520ms var(--ease-out) backwards;
+  animation-delay: calc(120ms + min(var(--i, 0), 9) * 45ms);
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
 }
 
 .divider {
