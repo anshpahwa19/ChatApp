@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Composer.module.css";
 
 type Props = { onSend: (text: string) => void; onAttach: () => void; hidden?: boolean };
 
 export function Composer({ onSend, onAttach, hidden }: Props) {
   const [text, setText] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Make the bar unreachable while the attachment sheet covers it.
+  useEffect(() => {
+    formRef.current?.toggleAttribute("inert", Boolean(hidden));
+  }, [hidden]);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -17,7 +23,7 @@ export function Composer({ onSend, onAttach, hidden }: Props) {
   }
 
   return (
-    <form className={`${styles.bar} ${hidden ? styles.hidden : ""}`} onSubmit={submit} inert={hidden}>
+    <form ref={formRef} className={`${styles.bar} ${hidden ? styles.hidden : ""}`} onSubmit={submit}>
       <div className={styles.inner}>
         <div className={styles.inputArea}>
           <button type="button" className={styles.circle36} aria-label="Attach" onClick={onAttach}>
