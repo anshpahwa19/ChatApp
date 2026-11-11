@@ -102,14 +102,9 @@
   position: absolute;
   top: -0.5px;
   left: -0.5px;
-  /* The segmented "new story" ring slowly turns. */
-  animation: ringSpin 14s linear infinite;
-}
-
-@keyframes ringSpin {
-  to {
-    transform: rotate(360deg);
-  }
+  /* Static, as in Figma: spinning put the segment gaps in arbitrary places
+     and made any sub-pixel offset wobble. It fades in with the story instead. */
+  pointer-events: none;
 }
 
 .avatar {
