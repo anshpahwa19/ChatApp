@@ -2,7 +2,8 @@
   background: linear-gradient(to bottom, #95d3c5, #f9f9e7);
 }
 
-/* Doodle wallpaper ("image 1", node 1:2340). */
+/* Doodle wallpaper ("image 1"). The exported image already carries Figma's 41% x 9%
+   opacity in its alpha, and matches the 393 x 864 frame, so it is drawn as-is. */
 .wallpaper {
   position: absolute;
   top: -1px;
@@ -11,7 +12,6 @@
   height: 864px;
   object-fit: cover;
   object-position: bottom;
-  opacity: 0.41;
   pointer-events: none;
   animation: wallpaperIn 900ms var(--ease-out) backwards;
 }

@@ -75,7 +75,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
 
   return (
     <PhoneFrame className={styles.device}>
-      <img className={styles.wallpaper} src="/figma/chat-wallpaper.png" alt="" aria-hidden />
+      <img className={styles.wallpaper} src="/figma/chat-wallpaper.webp" alt="" aria-hidden />
 
       <div
         ref={scrollRef}
