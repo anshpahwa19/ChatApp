@@ -85,7 +85,8 @@
   position: relative;
   width: 56px;
   height: 56px;
-  padding: 4px 4px 2px;
+  /* 2px ring + 3px gap on every side keeps the 46px photo a centred circle. */
+  padding: 3px;
   border: 2px solid #fff;
   border-radius: 9999px;
 }
@@ -93,12 +94,14 @@
 /* Unseen stories use the segmented ring asset instead of the solid white border. */
 .unseen {
   border: 0;
+  padding: 4px;
 }
 
+/* The 57px ring art is centred on the 56px slot. */
 .unseenRing {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -0.5px;
+  left: -0.5px;
   /* The segmented "new story" ring slowly turns. */
   animation: ringSpin 14s linear infinite;
 }

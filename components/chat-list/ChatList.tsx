@@ -68,7 +68,7 @@ export function ChatList() {
             <div className={styles.titleRow}>
               <h1 className={styles.title}>Chats</h1>
               <div className={styles.actions}>
-                <div className={styles.glassPill}>
+                <div className={`${styles.glassPill} liquid-glass-dark`}>
                   <button type="button" className={styles.pillButton} aria-label="More options">
                     <img src="/figma/dots-three.svg" width={20} height={21} alt="" />
                   </button>

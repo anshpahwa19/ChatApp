@@ -10,10 +10,10 @@ export function ChatHeader({ conversation }: { conversation: Conversation }) {
       <StatusBar tone="dark" />
       <div className={styles.row}>
         <div className={styles.left}>
-          <Link href="/" className={`${styles.glass} ${styles.back}`} aria-label="Back to chats">
+          <Link href="/" className={`${styles.glass} liquid-glass ${styles.back}`} aria-label="Back to chats">
             <img src="/figma/back.svg" width={16} height={16} alt="" />
           </Link>
-          <div className={`${styles.glass} ${styles.pill}`}>
+          <div className={`${styles.glass} liquid-glass ${styles.pill}`}>
             <span className={styles.avatar}>
               <img src={conversation.avatar} alt="" />
               {conversation.status === "Online" && <span className={styles.online} aria-hidden />}
@@ -25,10 +25,10 @@ export function ChatHeader({ conversation }: { conversation: Conversation }) {
           </div>
         </div>
         <div className={styles.actions}>
-          <button type="button" className={`${styles.glass} ${styles.round}`} aria-label="Voice call">
+          <button type="button" className={`${styles.glass} liquid-glass ${styles.round}`} aria-label="Voice call">
             <img src="/figma/phone.svg" width={24} height={24} alt="" />
           </button>
-          <button type="button" className={`${styles.glass} ${styles.round}`} aria-label="Video call">
+          <button type="button" className={`${styles.glass} liquid-glass ${styles.round}`} aria-label="Video call">
             <img src="/figma/video-camera.svg" width={24} height={24} alt="" />
           </button>
         </div>

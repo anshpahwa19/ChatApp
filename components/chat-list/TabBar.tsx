@@ -35,7 +35,7 @@ export function TabBar({ initial = "chats" }: { initial?: TabId }) {
   return (
     <nav className={styles.wrap} aria-label="Main">
       <div className={styles.bar}>
-        <div className={styles.glass} aria-hidden />
+        <div className={`${styles.glass} liquid-glass`} aria-hidden />
         {pill && (
           <span
             className={`${styles.selection} ${animatePill ? styles.gliding : ""}`}
