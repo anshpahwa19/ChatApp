@@ -10,7 +10,7 @@
 .title,
 .feature,
 .range {
-  animation: rowIn 460ms var(--ease-out) backwards;
+  animation: rowIn var(--spring-snappy-duration) var(--spring-snappy) backwards;
   animation-delay: calc(80ms + var(--i, 0) * 45ms);
 }
 
@@ -71,7 +71,7 @@
   width: 100%;
   text-align: left;
   border-radius: 20px;
-  transition: transform 240ms var(--ease-spring);
+  transition: transform var(--spring-press-duration) var(--spring-press);
 }
 
 .feature:active {
@@ -87,7 +87,7 @@
   height: 52px;
   padding-right: 1px;
   border-radius: 36px;
-  transition: transform 300ms var(--ease-spring);
+  transition: transform var(--spring-press-duration) var(--spring-press);
 }
 
 .feature:hover .icon {
@@ -162,9 +162,9 @@
     linear-gradient(var(--surface-white), var(--surface-white)) padding-box,
     linear-gradient(90deg, #1abeae 0%, #b7cf14 100%) border-box;
   transition:
-    transform 240ms var(--ease-spring),
-    background-color 200ms ease,
-    box-shadow 240ms ease;
+    transform var(--spring-press-duration) var(--spring-press),
+    background-color var(--spring-smooth-duration) var(--spring-smooth),
+    box-shadow var(--spring-smooth-duration) var(--spring-smooth);
 }
 
 .rangeAuto {

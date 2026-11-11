@@ -24,6 +24,7 @@ export function MessageBubble({ message }: { message: BubbleMessage }) {
       className={`${styles.bubble} ${mine ? styles.mine : styles.theirs} ${message.replyable ? styles.bordered : ""} ${
         message.highlight ? styles.compact : ""
       }`}
+      style={message.textWidth ? { maxWidth: message.textWidth + 24 } : undefined}
     >
       {message.timeBelow ? (
         <>
@@ -82,7 +83,7 @@ function VoiceNote({ message }: { message: Extract<Message, { kind: "voice" }> }
             aria-pressed={playing}
             onClick={toggle}
           >
-            <img src={message.listened ? "/figma/play-dark.svg" : "/figma/play-white.svg"} width={16} height={16} alt="" />
+            <img src={message.listened ? "/figma/play-navy.svg" : "/figma/play-white.svg"} width={16} height={16} alt="" />
           </button>
           <div className={styles.duration}>
             <span className={styles.durationText}>{message.duration}</span>

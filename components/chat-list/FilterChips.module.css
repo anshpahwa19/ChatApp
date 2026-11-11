@@ -1,8 +1,8 @@
 .row {
+  position: relative;
   display: flex;
   gap: 8px;
-  margin-top: 22px;
-  padding: 0 16px 0 18px;
+  /* Clipped at the panel's content edge (Figma: overflow clip, 16px trailing padding). */
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -17,6 +17,7 @@
   justify-content: center;
   gap: 4px;
   flex-shrink: 0;
+  min-width: 49px; /* Figma fixes the "All" chip at 49px */
   height: 29px;
   padding: 4px 12px;
   border-radius: 68px;
@@ -28,11 +29,10 @@
   line-height: 20px;
   white-space: nowrap;
   transition:
-    background-color 260ms var(--ease-out),
-    border-color 260ms var(--ease-out),
-    transform 260ms var(--ease-spring);
-  animation: chipIn 520ms var(--ease-out) backwards;
-  animation-delay: calc(80ms + var(--i, 0) * 50ms);
+    color var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-press-duration) var(--spring-press);
+  animation: chipIn var(--spring-snappy-duration) var(--spring-snappy) backwards;
+  animation-delay: calc(80ms + var(--i, 0) * 40ms);
 }
 
 @keyframes chipIn {
@@ -44,11 +44,49 @@
 
 .chip:active {
   transform: scale(var(--press-scale));
+  transition-duration: var(--spring-interactive-duration);
+  transition-timing-function: var(--spring-interactive);
 }
 
+/* Selected chip: lavender orb fill with white text (49 x 29 "All"). The fill itself is a
+   separate element that glides between chips (see FilterChips.tsx). */
 .active {
-  background: var(--brand-100);
-  border-color: var(--brand-700);
+  color: var(--text-white);
+  border-color: transparent;
+  background: transparent;
+}
+
+.chip {
+  position: relative;
+}
+
+.chip > * {
+  position: relative;
+  z-index: 2;
+}
+
+.indicator {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 29px;
+  border-radius: 68px;
+  background: var(--orb-lavender);
+  pointer-events: none;
+  animation: indicatorIn var(--spring-smooth-duration) 80ms var(--spring-smooth) backwards;
+}
+
+@keyframes indicatorIn {
+  from {
+    opacity: 0;
+  }
+}
+
+.gliding {
+  transition:
+    transform var(--spring-glass-duration) var(--spring-glass),
+    width var(--spring-glass-duration) var(--spring-glass);
 }
 
 .badge {
@@ -59,12 +97,12 @@
   height: 18px;
   padding: 0 4px;
   border-radius: 9999px;
-  background: var(--brand-500);
+  background: var(--navy-700);
   color: var(--text-white);
   font-weight: 700;
   font-size: 10px;
   line-height: 12px;
-  animation: badgePop 520ms 500ms var(--ease-spring) backwards;
+  animation: badgePop var(--spring-bouncy-duration) 500ms var(--spring-bouncy) backwards;
 }
 
 @keyframes badgePop {

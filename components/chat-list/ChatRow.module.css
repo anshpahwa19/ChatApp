@@ -2,32 +2,26 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 4px 16px;
+  padding: 4px 0;
   width: 100%;
-  transition: background-color 200ms ease, transform 260ms var(--ease-spring);
+  border-radius: 14px;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-press-duration) var(--spring-press);
 }
 
-.row:hover {
-  background: rgba(33, 106, 94, 0.04);
-}
-
+/* UITableView-style highlight: the row greys while touched and releases with a spring. */
 .row:active {
-  background: rgba(33, 106, 94, 0.08);
+  background: rgba(48, 59, 86, 0.06);
   transform: scale(0.985);
-}
-
-.row :global(img),
-.row > span:first-child {
-  transition: transform 300ms var(--ease-spring);
-}
-
-.row:hover > span:first-child {
-  transform: scale(1.04);
+  transition-duration: 80ms, var(--spring-interactive-duration);
+  transition-timing-function: linear, var(--spring-interactive);
 }
 
 .row:focus-visible {
-  outline: 2px solid var(--brand-700);
-  outline-offset: -2px;
+  outline: 2px solid var(--navy-700);
+  outline-offset: 2px;
 }
 
 .body {
@@ -81,12 +75,14 @@
 .timeUnread {
   font-weight: 600;
   line-height: 12px;
-  color: var(--brand-700);
+  color: var(--navy-900);
 }
 
 .message {
   flex: 1;
   min-width: 0;
+  /* Figma insets the preview text ~8% from its box, so it truncates ~22px before the badge. */
+  padding-right: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -128,7 +124,7 @@
   min-width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: var(--brand-700);
+  background: var(--navy-700);
   color: var(--text-white);
   font-weight: 400;
   font-size: 12px;
@@ -137,7 +133,7 @@
 
 /* Unread badges pop in just after their row arrives. */
 .badge {
-  animation: badgePop 520ms var(--ease-spring) backwards;
+  animation: badgePop var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
   animation-delay: calc(420ms + min(var(--i, 0), 9) * 45ms);
 }
 

@@ -4,92 +4,162 @@
   left: 0;
   right: 0;
   z-index: 5;
-  height: 113px;
-  background: linear-gradient(to bottom, rgba(247, 255, 250, 0.95) 70%, rgba(247, 255, 250, 0));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  transform: translateY(-8px);
+  height: 104px;
   pointer-events: none;
-  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+/* Hard scroll-edge effect: a pale frost (blur 6 under ~85% fill) that ends crisply at y=104.
+   Sampled from the render: #f7fffa at the top, a touch darker just above the edge. */
+.edge {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(247, 255, 250, 0.97) 0%, rgba(247, 255, 250, 0.94) 55%, rgba(238, 243, 243, 0.9) 100%);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
+}
+
+.status {
+  position: relative;
+  opacity: 0;
+  transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
 }
 
 .visible {
-  opacity: 1;
-  transform: none;
   pointer-events: auto;
 }
 
+.visible .edge,
+.visible .status {
+  opacity: 1;
+}
+
+/* Row at (18, 58): 360 x 40. */
 .row {
-  position: relative;
+  position: absolute;
+  top: 58px;
+  left: 18px;
+  right: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 40px;
-  margin-top: 4px;
-  padding: 0 15px 0 18px;
 }
 
-.stack {
+.lead {
   display: flex;
   align-items: center;
-  height: 36px;
+  gap: 8px;
 }
 
-.stackItem {
-  display: flex;
-  width: 32px;
-  height: 32px;
-  margin-right: -12px;
-  padding: 2px 2px 1px;
-  border: 1px solid #50b7aa;
-  border-radius: 9999px;
+/* Each piece springs in on its own beat; the title rises from where the large one was. */
+.cluster,
+.title,
+.add {
+  opacity: 0;
+  transition:
+    opacity var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-glass-duration) var(--spring-glass);
 }
 
-.stackItem:last-child {
-  margin-right: 0;
-}
-
-.first {
-  padding: 1px 2px;
-}
-
-.stackImage {
-  position: relative;
-  display: block;
-  width: 100%;
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.stackImage img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.cluster {
+  transform: scale(0.6);
 }
 
 .title {
+  transform: translateY(14px) scale(1.25);
+  transform-origin: 0 50%;
+}
+
+.add {
+  transform: scale(0.4);
+}
+
+.visible .cluster,
+.visible .title,
+.visible .add {
+  opacity: 1;
+  transform: none;
+}
+
+.visible .title {
+  transition-delay: 30ms;
+}
+
+.visible .add {
+  transition-delay: 60ms;
+}
+
+.cluster {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 51px;
+  background: var(--surface-blue-light);
+}
+
+/* Three avatars with a thin #7da8aa ring: 16px at (4, 16), 15px at (17, 4), 11px at (23, 21). */
+.mini {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: block;
+  border: 0.5px solid #7da8aa;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.mini img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.a {
+  left: 4px;
+  top: 16px;
+  width: 16px;
+  height: 16px;
+  padding: 1px 1px;
+}
+
+.b {
+  left: 17px;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  padding: 1px 1px;
+}
+
+.c {
+  left: 23px;
+  top: 21px;
+  width: 11px;
+  height: 11px;
+  padding: 0.7px;
+}
+
+.title {
   font-family: var(--font-system);
   font-weight: 700;
   font-size: 20px;
+  line-height: 38px;
   color: var(--text-primary);
 }
 
 .add {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 36px;
-  background-image:
-    url("data:image/svg+xml;utf8,<svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(2.3353 0.55258 -0.41421 2.3353 0.9 5.2523)'><stop stop-color='rgba(125,168,170,1)' offset='0'/><stop stop-color='rgba(125,168,170,0.48)' offset='0.48'/><stop stop-color='rgba(125,168,170,0)' offset='1'/></radialGradient></defs></svg>"),
-    url("data:image/svg+xml;utf8,<svg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(3.24 0 0 3.06 19.08 16.2)'><stop stop-color='rgba(6,94,63,1)' offset='0'/><stop stop-color='rgba(23,111,92,0.82)' offset='0.5'/><stop stop-color='rgba(46,106,45,0)' offset='1'/></radialGradient></defs></svg>"),
-    linear-gradient(90deg, #296072 0%, #296072 100%);
-  background-size: 100% 100%;
+  background: var(--orb-lavender);
+}
+
+.visible .add[data-pressed] {
+  transform: scale(1.14);
 }

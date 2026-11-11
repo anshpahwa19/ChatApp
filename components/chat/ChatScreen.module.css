@@ -1,26 +1,34 @@
-.device {
-  background: linear-gradient(to bottom, #95d3c5, #f9f9e7);
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: #000;
 }
 
-/* Doodle wallpaper ("image 1"). The exported image already carries Figma's 41% x 9%
-   opacity in its alpha, and matches the 393 x 864 frame, so it is drawn as-is. */
+/* Lavender background (same gradient stack as the list, sized to the 864px frame). */
+.content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--bg-lavender);
+  background-size: 100% 864px;
+  transform-origin: 50% 0;
+}
+
+/* Doodle wallpaper ("image 1", 393 x 864 at y=79). The image's alpha carries v1's 41% x 9%;
+   v2 uses 41% x 4%, so it is drawn at 4/9 of that strength. */
 .wallpaper {
   position: absolute;
-  top: -1px;
+  top: 79px;
   left: 0;
   width: 100%;
   height: 864px;
   object-fit: cover;
   object-position: bottom;
+  opacity: 0.4444;
   pointer-events: none;
-  animation: wallpaperIn 900ms var(--ease-out) backwards;
-}
-
-@keyframes wallpaperIn {
-  from {
-    opacity: 0;
-    transform: scale(1.04);
-  }
 }
 
 .scroller {
@@ -30,31 +38,51 @@
   overscroll-behavior: contain;
   padding: 119px 16px 104px;
   scrollbar-width: none;
-  scroll-behavior: smooth;
-  /* Messages disappear under the floating header at y=109, as in the scrolled Figma frames. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
-  mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
-}
-
-.edge {
-  position: absolute;
-  top: 109px;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  height: 1px;
-  background: rgba(145, 150, 157, 0.14);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 220ms ease;
-}
-
-.edgeOn {
-  opacity: 1;
 }
 
 .scroller::-webkit-scrollbar {
   display: none;
+}
+
+/* Top scroll-edge effect (soft): content under the floating header blurs progressively and
+   fades, reaching a little past the bar. Shown once the conversation has scrolled. */
+.topEdge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  height: 132px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(160, 150, 196, 0.55) 0%, rgba(160, 150, 196, 0.25) 60%, rgba(160, 150, 196, 0) 100%);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  opacity: 0;
+  transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
+}
+
+.topEdgeOn {
+  opacity: 1;
+}
+
+/* Bottom scroll-edge effect (Figma 41:2585: y=738, 177 tall, blur 5 with a screen-blend wash). */
+.bottomEdge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  height: 126px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(150, 140, 190, 0) 0%, rgba(150, 140, 190, 0.35) 100%);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 60%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 60%);
+  /* The keyboard covers this edge, so it fades out as the keyboard rises. */
+  opacity: calc(1 - var(--kb, 0));
 }
 
 .messages {
@@ -77,47 +105,16 @@
   justify-content: center;
 }
 
-/* Messages slide in from their own side with a soft spring; dates fade in place. */
-.messages > li {
-  animation-duration: 560ms;
-  animation-timing-function: var(--ease-spring);
-  animation-fill-mode: backwards;
-  animation-delay: var(--d, 0ms);
-}
-
-.messages > li[data-from="them"] {
-  animation-name: fromLeft;
-  transform-origin: 0 100%;
-}
-
-.messages > li[data-from="me"] {
-  animation-name: fromRight;
+/* A sent message springs up out of the composer and settles into place (Messages). */
+.sent[data-from="me"] {
   transform-origin: 100% 100%;
+  animation: sendIn var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
 }
 
-.messages > li.dateItem {
-  animation-name: dateIn;
-  animation-timing-function: var(--ease-out);
-}
-
-@keyframes fromLeft {
+@keyframes sendIn {
   from {
     opacity: 0;
-    transform: translateX(-18px) translateY(8px) scale(0.92);
-  }
-}
-
-@keyframes fromRight {
-  from {
-    opacity: 0;
-    transform: translateX(18px) translateY(8px) scale(0.92);
-  }
-}
-
-@keyframes dateIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
+    transform: translate3d(-24px, 56px, 0) scale(0.7);
   }
 }
 

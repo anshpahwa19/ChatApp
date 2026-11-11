@@ -1,0 +1,181 @@
+/* Figma "Keyboard" (41:3162): 392 x 329 at the bottom of the screen, 27px top / 36px bottom
+   radii, #e6e9ed. It rides on the keyboard spring via --kb (0 hidden, 1 up). */
+.keyboard {
+  position: absolute;
+  left: 1px;
+  right: 0;
+  bottom: 0;
+  z-index: 7;
+  height: 329px;
+  overflow: hidden;
+  border-radius: 27px 27px 36px 36px;
+  background: #e6e9ed;
+  transform: translate3d(0, calc((1 - var(--kb, 0)) * 102%), 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* QuickType bar: three 52px slots split by faint 1px separators. */
+.suggestions {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 8.5px;
+}
+
+.suggestionSlot {
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+}
+
+.separator {
+  width: 1px;
+  height: 25px;
+  margin: 0 2px;
+  border-radius: 100px;
+  background: rgba(204, 204, 204, 0.6);
+  flex-shrink: 0;
+}
+
+.suggestion {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4.6px;
+  font-family: var(--font-system);
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.43px;
+  color: #1a1a1a;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Four rows of 43px keys, 11px apart, 6px between keys. */
+.keys {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 0 6.67px;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.row2 {
+  padding: 0 20px;
+}
+
+.row3 {
+  gap: 14.25px;
+}
+
+.letters {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+}
+
+.key {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 43px;
+  border-radius: 8.5px;
+  background: #fff;
+  color: #000;
+  font-family: "SF Compact", var(--font-system);
+  font-weight: 458;
+  font-size: 25px;
+  line-height: 30px;
+  transition: background-color var(--spring-smooth-duration) var(--spring-smooth);
+}
+
+.letter {
+  padding-bottom: 5px;
+}
+
+.modifier {
+  flex: 0 0 45px;
+}
+
+.row4 .wide {
+  flex: 0 0 92px;
+}
+
+.abc {
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.return {
+  background: #0088ff;
+}
+
+.key:active,
+.key[data-pressed] {
+  background: #c9ced6;
+  transition-duration: 0ms;
+}
+
+.return:active {
+  background: #0072d6;
+}
+
+/* Key callout: the pressed letter pops up magnified above the key, as on iOS. */
+.letter[data-pressed]::after {
+  content: attr(data-key);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% + 18px);
+  height: 54px;
+  transform: translateX(-50%);
+  border-radius: 10px 10px 8px 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  font-size: 34px;
+  pointer-events: none;
+  animation: callout var(--spring-interactive-duration) var(--spring-interactive);
+}
+
+@keyframes callout {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.6);
+  }
+}
+
+.letter[data-pressed] {
+  background: #fff;
+}
+
+/* Emoji and dictation buttons in the 78px strip under the keys. */
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 78px;
+  padding: 0 32px 2px;
+}
+
+.globe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}

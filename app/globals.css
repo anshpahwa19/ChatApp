@@ -13,11 +13,24 @@
   --text-timestamp-light: #e5e7eb;
   --text-danger: #f04349;
 
-  --brand-900: #296072;
-  --brand-700: #216a5e;
-  --brand-600: #2a7665;
-  --brand-500: #328d88;
-  --brand-100: #d8fff9;
+  /* v2 "Mist — Teal & Lavender" palette. */
+  --navy-700: #303b56;
+  --navy-900: #1c202e;
+  --lavender-500: #9690b6;
+  --mist: #a0a2a4;
+  --icon-pink: #a0317b;
+
+  /* Lavender background used behind the chat list header and the chat (exact Figma gradient stack). */
+  --bg-lavender:
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 393 856' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(32.278 37.224 -82.601 70.305 15.72 17.12)'><stop stop-color='rgba(198,208,208,1)' offset='0'/><stop stop-color='rgba(167,166,189,0.74)' offset='0.24'/><stop stop-color='rgba(137,125,170,0.48)' offset='0.48'/><stop stop-color='rgba(145,125,170,0)' offset='1'/></radialGradient></defs></svg>"),
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 393 856' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(35.37 0 0 72.759 208.29 385.2)'><stop stop-color='rgba(142,133,191,1)' offset='0'/><stop stop-color='rgba(171,165,203,0.82)' offset='0.5'/><stop stop-color='rgba(123,116,163,0.78)' offset='1'/></radialGradient></defs></svg>"),
+    linear-gradient(90deg, #a0a2a4 0%, #a0a2a4 100%);
+
+  /* Small purple "orb" fill used by the All chip and the compact header's + button. */
+  --orb-lavender:
+    radial-gradient(80% 80% at 4% 2%, rgba(125, 168, 170, 1) 0%, rgba(125, 168, 170, 0.48) 48%, rgba(125, 168, 170, 0) 100%),
+    radial-gradient(90% 85% at 53% 45%, rgba(150, 144, 182, 1) 0%, rgba(150, 144, 182, 0.82) 50%, rgba(150, 144, 182, 0) 100%),
+    #a0a2a4;
 
   --surface-app: #f7fffa;
   --surface-white: #ffffff;
@@ -34,10 +47,32 @@
   --radius-bubble: 12px;
   --radius-bubble-tail: 4px;
 
-  /* Motion */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Motion. UI motion uses springs only: these linear() curves are sampled from the same
+     physics as lib/spring.ts (SwiftUI response/damping), so CSS transitions and JS-driven
+     springs move identically. Pair each curve with its own duration (the settle time). */
+  --spring-smooth: linear(0, 0.0258, 0.0861, 0.1605, 0.2469, 0.3345, 0.4188, 0.4973, 0.565, 0.629, 0.6854, 0.7345, 0.7768, 0.8113, 0.8425, 0.8689, 0.8911, 0.9098, 0.9247, 0.9378, 0.9488, 0.9578, 0.9654, 0.9713, 0.9765, 0.9807, 0.9842, 0.9871, 0.9894, 0.9913, 0.9929, 0.9942, 0.9953, 0.9961, 0.9969, 0.9974, 0.9979, 0.9983, 0.9986, 0.9989, 1);
+  --spring-smooth-duration: 752ms;
+  --spring-snappy: linear(0, 0.0239, 0.0817, 0.1601, 0.2491, 0.3415, 0.4322, 0.5179, 0.5966, 0.6672, 0.7324, 0.7856, 0.8307, 0.8686, 0.8999, 0.9253, 0.9458, 0.962, 0.9746, 0.9842, 0.9914, 0.9966, 1.0003, 1.0028, 1.0044, 1.0053, 1.0056, 1.0057, 1.0054, 1.005, 1.0045, 1.004, 1.0035, 1.003, 1.0025, 1.0021, 1.0017, 1.0014, 1.0011, 1.0009, 1);
+  --spring-snappy-duration: 722ms;
+  --spring-bouncy: linear(0, 0.0323, 0.111, 0.2171, 0.3358, 0.4506, 0.5658, 0.6704, 0.7617, 0.8384, 0.9007, 0.9495, 0.986, 1.0109, 1.0285, 1.0389, 1.0438, 1.0447, 1.0426, 1.0388, 1.0338, 1.0287, 1.0233, 1.0183, 1.0137, 1.0098, 1.0065, 1.0039, 1.0018, 1.0004, 0.9993, 0.9986, 0.9982, 0.998, 0.998, 0.9981, 0.9983, 0.9985, 0.9988, 0.999, 1);
+  --spring-bouncy-duration: 835ms;
+  --spring-navigation: linear(0, 0.0262, 0.087, 0.1662, 0.2587, 0.3463, 0.4301, 0.5078, 0.5782, 0.6408, 0.699, 0.7463, 0.7871, 0.8219, 0.8515, 0.8765, 0.8975, 0.9162, 0.9307, 0.9429, 0.953, 0.9613, 0.9682, 0.9739, 0.9789, 0.9827, 0.9859, 0.9885, 0.9906, 0.9923, 0.9938, 0.995, 0.9959, 0.9967, 0.9973, 0.9978, 0.9982, 0.9986, 0.9988, 0.999, 1);
+  --spring-navigation-duration: 646ms;
+  --spring-sheet: linear(0, 0.0237, 0.0805, 0.1515, 0.2377, 0.3274, 0.4157, 0.4993, 0.5763, 0.6413, 0.7031, 0.757, 0.8033, 0.8426, 0.8755, 0.9011, 0.9237, 0.9421, 0.9568, 0.9685, 0.9777, 0.9843, 0.9898, 0.9939, 0.9969, 0.999, 1.0004, 1.0014, 1.002, 1.0024, 1.0025, 1.0025, 1.0023, 1.0022, 1.002, 1.0017, 1.0015, 1.0013, 1.0011, 1.0009, 1);
+  --spring-sheet-duration: 593ms;
+  --spring-interactive: linear(0, 0.0325, 0.1041, 0.1969, 0.2984, 0.4, 0.4964, 0.5845, 0.6625, 0.7301, 0.796, 0.8422, 0.8801, 0.9105, 0.9347, 0.9535, 0.968, 0.9789, 0.987, 0.9929, 0.997, 0.9997, 1.0015, 1.0026, 1.0031, 1.0033, 1.0033, 1.003, 1.0028, 1.0024, 1.002, 1.0017, 1.0014, 1.0011, 1.0009, 1.0007, 1.0006, 1.0004, 1.0003, 1.0002, 1);
+  --spring-interactive-duration: 242ms;
+  --spring-glass: linear(0, 0.0329, 0.1059, 0.2103, 0.3274, 0.439, 0.5528, 0.6502, 0.7415, 0.8187, 0.8783, 0.9289, 0.9675, 0.9941, 1.014, 1.0261, 1.0335, 1.0366, 1.0366, 1.0345, 1.0311, 1.0272, 1.0228, 1.0188, 1.0147, 1.0111, 1.0082, 1.0056, 1.0035, 1.0019, 1.0007, 0.9999, 0.9992, 0.9989, 0.9987, 0.9986, 0.9987, 0.9988, 0.9989, 0.9991, 1);
+  --spring-glass-duration: 625ms;
+  --spring-keyboard: linear(0, 0.0275, 0.0905, 0.1722, 0.2677, 0.3569, 0.4418, 0.52, 0.5904, 0.6528, 0.7072, 0.7543, 0.7972, 0.8311, 0.8598, 0.8839, 0.9041, 0.9209, 0.935, 0.9466, 0.9568, 0.9646, 0.9711, 0.9764, 0.9807, 0.9843, 0.9872, 0.9896, 0.9916, 0.9932, 0.9945, 0.9955, 0.9964, 0.9971, 0.9976, 0.9981, 0.9985, 0.9987, 0.999, 0.9992, 1);
+  --spring-keyboard-duration: 565ms;
+  --spring-press: linear(0, 0.0359, 0.1312, 0.2511, 0.3953, 0.5301, 0.666, 0.7776, 0.8783, 0.9528, 1.0129, 1.0516, 1.0762, 1.0896, 1.0925, 1.0883, 1.0796, 1.0675, 1.055, 1.0416, 1.0301, 1.0198, 1.0107, 1.0039, 0.9985, 0.995, 0.9927, 0.9917, 0.9915, 0.9919, 0.9928, 0.9938, 0.995, 0.9962, 0.9973, 0.9983, 0.9991, 0.9997, 1.0002, 1.0005, 1);
+  --spring-press-duration: 538ms;
+
+  /* Entrance-only fades of decorative content. */
+  --ease-out: var(--spring-smooth);
+  --ease-spring: var(--spring-bouncy);
+  --ease-in-out: var(--spring-smooth);
   --press-scale: 0.94;
 
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
@@ -106,38 +141,69 @@ img {
 }
 
 /* ---- Liquid glass ---------------------------------------------------------
-   Web version of the Figma "Liquid Glass" components. Matched against the Figma
-   renders: the material is a muted, desaturated frost with a thin outline and a
-   soft light rim, not a bright sheen. */
+   Web version of the Figma "Liquid Glass - Regular" recipe (iOS 27): a muted frost
+   (white 25% over black 25%, a plus-lighter grey and a luminosity wash) with a thin grey
+   outline, faint dark inner rims top and bottom and a soft light rim at the top. Tuned
+   against the v2 renders on the lavender background: a pale grey-lilac frost, no sheen. */
 .liquid-glass,
 .liquid-glass-dark {
   position: relative;
   isolation: isolate;
 }
 
-/* Light glass on the chat wallpaper: pale grey-green frost, thin grey outline,
-   faint lighter rim along the bottom (header back / contact pill / call buttons). */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.36);
-  -webkit-backdrop-filter: blur(10px) saturate(60%);
-  backdrop-filter: blur(10px) saturate(60%);
+  background: rgba(236, 234, 242, 0.42);
+  -webkit-backdrop-filter: blur(8px) saturate(55%) brightness(1.06);
+  backdrop-filter: blur(8px) saturate(55%) brightness(1.06);
   box-shadow:
-    inset 0 -1px 1px rgba(255, 255, 255, 0.55),
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.28),
+    inset 0 2px 3px -2px rgba(40, 40, 40, 0.18),
+    inset 0 -2px 3px -2px rgba(40, 40, 40, 0.18),
     1.25px 0 0 -0.75px #d0d0d0,
     -1.25px 0 0 -0.75px #d0d0d0,
-    0 0 0 0.75px rgba(70, 95, 88, 0.28),
+    0 0 0 0.5px #e8e8e8,
     0 8px 15px rgba(0, 0, 0, 0.02);
 }
 
-/* Glass on the dark green header: a slightly darker, muted tint of the green behind
-   it with a thin light rim that is strongest along the bottom (search pill). */
+/* Glass on the lavender hero (search pill): a clear, slightly darker tint of the purple
+   behind it with thin light rims. */
 .liquid-glass-dark {
-  background: rgba(16, 52, 36, 0.16);
+  background: rgba(90, 80, 130, 0.1);
   -webkit-backdrop-filter: blur(10px) saturate(80%);
   backdrop-filter: blur(10px) saturate(80%);
   box-shadow:
-    inset 0 0 0 1px rgba(150, 215, 192, 0.22),
-    inset 0 -1px 1px rgba(170, 230, 208, 0.35),
-    inset 0 2px 6px rgba(0, 0, 0, 0.06);
+    inset 0 0 0 1px rgba(230, 228, 245, 0.22),
+    inset 0 -1px 1px rgba(235, 232, 250, 0.35),
+    inset 0 1px 2px rgba(40, 40, 40, 0.16);
+}
+
+/* ---- Interactive glass ----------------------------------------------------
+   `.glassEffect(.regular.interactive())`: on touch-down the glass swells and lights up
+   from the point of contact; on release it springs back with a little overshoot. The
+   pointer position comes from useGlassPress (--gx / --gy). */
+.glass-press {
+  transition: transform var(--spring-press-duration) var(--spring-press);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glass-press::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+  transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
+}
+
+.glass-press[data-pressed] {
+  transform: scale(var(--press-grow, 1.12));
+  transition: transform var(--spring-interactive-duration) var(--spring-interactive);
+}
+
+.glass-press[data-pressed]::after {
+  opacity: 1;
+  transition-duration: 120ms;
 }

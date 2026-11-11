@@ -1,7 +1,9 @@
-import Link from "next/link";
+"use client";
+
 import type { ChatPreview } from "@/lib/data";
 import { Avatar } from "@/components/ui/Avatar";
 import { ReadTicks } from "@/components/ui/ReadTicks";
+import { useNav } from "@/components/nav/Navigator";
 import styles from "./ChatRow.module.css";
 
 const PREVIEW_ICON = {
@@ -12,9 +14,18 @@ const PREVIEW_ICON = {
 
 export function ChatRow({ chat }: { chat: ChatPreview }) {
   const unread = chat.unread ?? 0;
+  const nav = useNav();
 
   return (
-    <Link href={`/chat/${chat.id}`} className={styles.row}>
+    <a
+      href={nav.hrefFor(chat.id)}
+      className={styles.row}
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        nav.open(chat.id);
+      }}
+    >
       <Avatar spec={chat.avatar} name={chat.name} />
       <div className={styles.body}>
         <div className={styles.top}>
@@ -54,7 +65,7 @@ export function ChatRow({ chat }: { chat: ChatPreview }) {
           {chat.time && unread > 0 && <UnreadBadge count={unread} />}
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

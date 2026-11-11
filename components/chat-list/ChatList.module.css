@@ -1,13 +1,28 @@
-.device {
-  background: var(--surface-app);
+/* The screen holds the scaled "content" (what a large-detent sheet pushes back) and the sheet. */
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: #000;
+}
+
+/* Lavender gradient behind the header; the white list panel slides up over it. */
+.content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--bg-lavender);
+  background-size: 100% 856px;
+  transform-origin: 50% 0;
 }
 
 .scroller {
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  overscroll-behavior: contain;
-  padding-bottom: 120px;
+  overscroll-behavior-y: contain;
   scrollbar-width: none;
 }
 
@@ -15,17 +30,11 @@
   display: none;
 }
 
-/* Large green header (node 1:1932). The background is the exact gradient stack from Figma. */
+/* Large header: status bar, large title row and stories (node 41:2131, 223px tall). */
 .hero {
   position: relative;
-  height: 221px;
+  height: 223px;
   padding: 65px 1px 16px 20px;
-  border-radius: 0 0 24px 24px;
-  background-image:
-    url("data:image/svg+xml;utf8,<svg viewBox='0 0 394 221' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(25.558 3.3922 -4.5333 14.336 9.85 32.243)'><stop stop-color='rgba(125,168,170,1)' offset='0'/><stop stop-color='rgba(125,168,170,0.48)' offset='0.48'/><stop stop-color='rgba(125,168,170,0)' offset='1'/></radialGradient></defs></svg>"),
-    url("data:image/svg+xml;utf8,<svg viewBox='0 0 394 221' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(35.46 0 0 18.785 208.82 99.451)'><stop stop-color='rgba(6,94,63,1)' offset='0'/><stop stop-color='rgba(23,111,92,0.82)' offset='0.5'/><stop stop-color='rgba(46,106,45,0)' offset='1'/></radialGradient></defs></svg>"),
-    linear-gradient(90deg, #296072 0%, #296072 100%);
-  background-size: 100% 100%;
 }
 
 .heroStatus {
@@ -38,19 +47,37 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* Scroll-linked: the hero content lifts and fades as the list scrolls (--p goes 0 -> 1). */
-  opacity: calc(1 - var(--p, 0) * 0.9);
-  transform: translateY(calc(var(--p, 0) * -14px)) scale(calc(1 - var(--p, 0) * 0.03));
-  transform-origin: 50% 0;
+  /* Scroll-linked (UIKit large title): lifts and fades as it slides under the bar. */
+  opacity: calc(1 - var(--p, 0) * 0.85);
+  transform: translateY(calc(var(--p, 0) * -10px));
   will-change: transform, opacity;
 }
 
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 359px;
+}
+
 .title {
-  animation: titleIn 600ms var(--ease-out) backwards;
+  margin: 0;
+  font-family: var(--font-system);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: normal;
+  color: var(--text-white);
+  /* Rubber-band overscroll stretches the large title from its leading edge, as on iOS. */
+  transform: scale(calc(1 + min(var(--pull, 0), 120) / 900));
+  transform-origin: 0 50%;
+  animation: titleIn var(--spring-smooth-duration) var(--spring-smooth) backwards;
 }
 
 .actions {
-  animation: actionsIn 600ms 80ms var(--ease-out) backwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: actionsIn var(--spring-snappy-duration) 80ms var(--spring-snappy) backwards;
 }
 
 @keyframes titleIn {
@@ -63,62 +90,33 @@
 @keyframes actionsIn {
   from {
     opacity: 0;
-    transform: translateX(14px);
+    transform: translateX(14px) scale(0.9);
   }
 }
 
-.titleRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: calc(100% - 15px);
-  max-width: 359px;
-}
-
-.title {
-  margin: 0;
-  font-family: var(--font-system);
-  font-weight: 700;
-  font-size: 32px;
-  line-height: normal;
-  color: var(--text-white);
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* "Glass Effect" pill holding the More and Search icons (node 1:1937). */
+/* "Glass Effect" pill holding the More and Search icons (97 x 40). */
 .glassPill {
   display: flex;
   align-items: center;
-  width: 96px;
-  height: 44px;
-  padding: 0 10.5px 0 13.5px;
+  width: 97px;
+  height: 40px;
+  padding: 0 1.5px 0 13.5px;
   border-radius: 1000px;
 }
 
 .pillButton {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
-  height: 44px;
+  height: 40px;
   border-radius: 999px;
-  transition: transform 220ms var(--ease-spring), background-color 200ms ease;
-}
-
-.pillButton:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.pillButton:active {
-  transform: scale(0.86);
+  --press-grow: 1.18;
 }
 
 .addButton {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,26 +124,25 @@
   height: 44px;
   border-radius: 36px;
   background: #fff;
-  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
 }
 
-.addButton img {
-  transition: transform 420ms var(--ease-spring);
+/* White list panel: 20px radius, 16px padding, chips then rows 12px below. */
+.panel {
+  position: relative;
+  min-height: calc(100% - 223px);
+  margin: 0 0 0 1px;
+  padding: 16px 16px 132px;
+  border-radius: 20px 20px 0 0;
+  background: var(--surface-white);
+  animation: panelIn var(--spring-sheet-duration) var(--spring-sheet) backwards;
 }
 
-.addButton:hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+@keyframes panelIn {
+  from {
+    transform: translateY(40px);
+  }
 }
 
-.addButton:hover img {
-  transform: rotate(90deg);
-}
-
-.addButton:active {
-  transform: scale(var(--press-scale));
-}
-
-/* Filter chips + list (node 1:1991). */
 .list {
   list-style: none;
   margin: 12px 0 0;
@@ -156,20 +153,21 @@
 
 /* Rows rise in one after another; the stagger is capped so long lists don't lag. */
 .list > li {
-  animation: rowIn 520ms var(--ease-out) backwards;
-  animation-delay: calc(120ms + min(var(--i, 0), 9) * 45ms);
+  animation: rowIn var(--spring-snappy-duration) var(--spring-snappy) backwards;
+  animation-delay: calc(80ms + min(var(--i, 0), 9) * 35ms);
 }
 
 @keyframes rowIn {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(16px);
   }
 }
 
+/* 293px hairline aligned with the text column (row x + 64). */
 .divider {
   height: 1px;
-  margin: 8px 20px 8px 80px;
+  margin: 8px 4px 8px 64px;
   background: var(--surface-divider);
 }
 
@@ -181,82 +179,26 @@
   font-size: 14px;
 }
 
-/* Soft "Scroll Edge Effect" behind the floating tab bar. */
-.bottomFade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 151px;
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(247, 255, 250, 0) 0%, rgba(247, 255, 250, 0.85) 100%);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
-}
-
-/* Floating AI button: 56px white circle with the cropped gradient blob, 24px above the tab bar. */
+/* Floating AI button: 58px purple orb at (314.5, 692), 9px above the tab bar glass. */
 .aiFab {
   position: absolute;
-  right: 21px;
-  bottom: 105px;
+  right: 20.5px;
+  bottom: 106px;
   z-index: 6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  overflow: hidden;
-  border-radius: 78px;
-  background: #fff;
-  animation: fabIn 640ms 520ms var(--ease-spring) backwards;
-  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  animation: fabIn var(--spring-bouncy-duration) 420ms var(--spring-bouncy) backwards;
+  --press-grow: 1.1;
+}
+
+.aiFab img {
+  border-radius: 50%;
 }
 
 @keyframes fabIn {
   from {
     opacity: 0;
-    transform: scale(0.4) rotate(-30deg);
-  }
-}
-
-.aiFab:hover {
-  transform: scale(1.06);
-  box-shadow: 0 10px 22px rgba(33, 106, 94, 0.28);
-}
-
-.aiFab:active {
-  transform: scale(0.9);
-}
-
-.aiFabGradient {
-  position: absolute;
-  /* Figma: 57.8 x 59 frame at (0, -4.5) whose SVG overflows by -23.5% left / -17.38% top. */
-  left: -13.578px;
-  top: -14.754px;
-  max-width: none;
-  animation: fabBlob 7s var(--ease-in-out) infinite alternate;
-}
-
-@keyframes fabBlob {
-  to {
-    transform: rotate(160deg) scale(1.06);
-  }
-}
-
-.aiFabIcon {
-  position: relative;
-  animation: fabTwinkle 3.2s 1.4s var(--ease-in-out) infinite;
-}
-
-@keyframes fabTwinkle {
-  0%,
-  80%,
-  100% {
-    transform: none;
-  }
-  88% {
-    transform: rotate(18deg) scale(1.15);
+    transform: scale(0.3);
   }
 }

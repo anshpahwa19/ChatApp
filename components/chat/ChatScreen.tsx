@@ -2,13 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Conversation, Message, SummaryRange } from "@/lib/data";
+import { Spring, springs } from "@/lib/spring";
 import { AiAssistant } from "@/components/ai/AiAssistant";
 import { ChatSummary } from "@/components/ai/ChatSummary";
 import { BottomSheet } from "@/components/ui/BottomSheet";
-import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { AttachmentOptions } from "./AttachmentOptions";
 import { ChatHeader } from "./ChatHeader";
-import { Composer } from "./Composer";
+import { Composer, type ComposerHandle } from "./Composer";
 import { MessageBubble } from "./MessageBubble";
 import styles from "./ChatScreen.module.css";
 
@@ -28,6 +28,9 @@ const SHEET_LABEL: Record<SheetView, string> = {
   summary: "Chat Summary",
 };
 
+/** How far the composer rises with the keyboard (Figma: y 785 -> 475 minus 1px). */
+const KEYBOARD_LIFT = 311;
+
 export function ChatScreen({ conversation }: { conversation: Conversation }) {
   const [messages, setMessages] = useState<Message[]>(conversation.messages);
   const [sheet, setSheet] = useState<SheetView | null>(null);
@@ -35,30 +38,60 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   const [lastSheet, setLastSheet] = useState<SheetView>("attach");
   const [range, setRange] = useState<SummaryRange>("24h");
   const [scrolled, setScrolled] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isFirstRender = useRef(true);
+  const composerRef = useRef<ComposerHandle>(null);
+  const plusRef = useRef<HTMLElement | null>(null);
+  const aiRef = useRef<HTMLElement | null>(null);
   const initialCount = useRef(conversation.messages.length);
+  const keyboard = useRef<Spring | null>(null);
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages.length]);
+  // The keyboard spring moves the composer, the keyboard and the bottom of the message
+  // list together, keeping the newest message pinned just above the composer.
+  if (!keyboard.current && typeof window !== "undefined") {
+    keyboard.current = new Spring(0, (v) => {
+      const content = contentRef.current;
+      const scroller = scrollRef.current;
+      if (!content || !scroller) return;
+      content.style.setProperty("--kb", v.toFixed(4));
+      const atBottom = scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight < 40;
+      // Like UIKit's keyboard layout guide: the scroll view's bottom edge rises with the keyboard.
+      scroller.style.bottom = `${KEYBOARD_LIFT * Math.max(0, v)}px`;
+      if (atBottom || v > 0) scroller.scrollTop = scroller.scrollHeight;
+    });
+  }
 
-  // While a sheet is open, make room under the messages and bring the latest ones into view above it.
+  const keyboardUp = useRef(false);
+  const onKeyboard = useCallback((up: boolean) => {
+    keyboardUp.current = up;
+    keyboard.current?.to(up ? 1 : 0, springs.keyboard);
+  }, []);
+
+  // Whenever the visible message area shrinks for the keyboard, keep the latest message in view.
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el || sheet === null) return;
-    el.style.paddingBottom = `${SHEET_HEIGHT[sheet] + 16}px`;
-    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    const ro = new ResizeObserver(() => {
+      if (keyboardUp.current) el.scrollTop = el.scrollHeight;
+    });
+    ro.observe(el);
     return () => {
-      el.style.paddingBottom = "";
+      ro.disconnect();
+      keyboard.current?.stop();
     };
-  }, [sheet]);
+  }, []);
+
+  // New messages: keep the conversation scrolled to the latest.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || messages.length === initialCount.current) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [messages.length]);
 
   function openSheet(view: SheetView) {
+    plusRef.current = composerRef.current?.plusButton ?? null;
+    aiRef.current = composerRef.current?.aiButton ?? null;
     setLastSheet(view);
     setSheet(view);
   }
@@ -74,44 +107,55 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   }
 
   return (
-    <PhoneFrame className={styles.device}>
-      <img className={styles.wallpaper} src="/figma/chat-wallpaper.webp" alt="" aria-hidden />
+    <div className={styles.screen}>
+      <div ref={contentRef} className={styles.content}>
+        <img className={styles.wallpaper} src="/figma/chat-wallpaper.webp" alt="" aria-hidden />
 
-      <div
-        ref={scrollRef}
-        className={styles.scroller}
-        onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 4)}
-      >
-        <ol className={styles.messages} aria-label={`Conversation with ${conversation.name}`}>
-          {messages.map((m, i) => (
-            <li
-              key={m.id}
-              className={m.kind === "date" ? styles.dateItem : undefined}
-              data-from={m.kind === "date" ? undefined : m.from}
-              // Initial history cascades in; messages sent later appear immediately.
-              style={{ "--d": i < initialCount.current ? `${160 + i * 55}ms` : "0ms" } as React.CSSProperties}
-            >
-              {m.kind === "date" ? <span className={styles.date}>{m.label}</span> : <MessageBubble message={m} />}
-            </li>
-          ))}
-        </ol>
+        <div
+          ref={scrollRef}
+          className={styles.scroller}
+          onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 4)}
+          onPointerDown={() => {
+            // Tapping the conversation dismisses the keyboard, as in Messages.
+            const active = document.activeElement as HTMLElement | null;
+            if (active?.tagName === "INPUT") active.blur();
+          }}
+        >
+          <ol className={styles.messages} aria-label={`Conversation with ${conversation.name}`}>
+            {messages.map((m, i) => (
+              <li
+                key={m.id}
+                className={`${m.kind === "date" ? styles.dateItem : ""} ${i >= initialCount.current ? styles.sent : ""}`}
+                data-from={m.kind === "date" ? undefined : m.from}
+              >
+                {m.kind === "date" ? <span className={styles.date}>{m.label}</span> : <MessageBubble message={m} />}
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Soft scroll-edge effects where content meets the floating header and composer. */}
+        <div className={`${styles.topEdge} ${scrolled ? styles.topEdgeOn : ""}`} aria-hidden />
+        <div className={styles.bottomEdge} aria-hidden />
+        <ChatHeader conversation={conversation} />
+        <Composer
+          ref={composerRef}
+          onSend={send}
+          onAttach={() => openSheet("attach")}
+          onAssist={() => openSheet("ai")}
+          onKeyboard={onKeyboard}
+          hidden={sheet !== null}
+        />
       </div>
 
-      {/* Hairline where scrolled messages tuck under the floating header. */}
-      <div className={`${styles.edge} ${scrolled ? styles.edgeOn : ""}`} aria-hidden />
-      <ChatHeader conversation={conversation} />
-      <Composer
-        onSend={send}
-        onAttach={() => openSheet("attach")}
-        onAssist={() => openSheet("ai")}
-        hidden={sheet !== null}
-      />
       <BottomSheet
         open={sheet !== null}
         onClose={closeSheet}
         label={SHEET_LABEL[view]}
         viewKey={view}
         minHeight={SHEET_HEIGHT[view]}
+        backgroundRef={contentRef}
+        sourceRef={view === "attach" ? plusRef : view === "ai" ? aiRef : undefined}
       >
         {view === "attach" && <AttachmentOptions onSelect={closeSheet} />}
         {view === "ai" && (
@@ -124,6 +168,6 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
         )}
         {view === "summary" && <ChatSummary range={range} />}
       </BottomSheet>
-    </PhoneFrame>
+    </div>
   );
 }

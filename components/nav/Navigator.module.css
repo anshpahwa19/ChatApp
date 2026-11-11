@@ -1,0 +1,28 @@
+.device {
+  background: #000;
+}
+
+/* Each screen in the stack fills the device and is moved with transforms only. */
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  will-change: transform;
+}
+
+/* The pushed screen casts a soft shadow onto the one underneath, as in UIKit. */
+.pushed {
+  z-index: 2;
+  touch-action: pan-y;
+  box-shadow: -12px 0 32px rgba(15, 23, 43, calc(0.16 * var(--edge-shadow, 1)));
+}
+
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}

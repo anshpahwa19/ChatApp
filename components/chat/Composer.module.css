@@ -1,198 +1,161 @@
+/* Composer row (Figma 41:2612): 392 wide at x=1, 8px/16px padding, 8px gaps, bottom-aligned.
+   It floats over the chat (no bar behind it) 18px above the bottom edge and rides up with the
+   on-screen keyboard (--kb goes 0 -> 1 on the keyboard spring, see ChatScreen). */
 .bar {
   position: absolute;
-  left: 0;
+  left: 1px;
   right: 0;
-  bottom: 0;
-  z-index: 5;
+  bottom: 18px;
+  z-index: 6;
   display: flex;
-  justify-content: center;
-  height: 88px;
-  padding: 12px 15px;
-  border-top: 1px solid var(--stroke-disabled);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(291.25px);
-  -webkit-backdrop-filter: blur(291.25px);
-  animation: composerIn 620ms 120ms var(--ease-out) backwards;
-  transition: opacity 160ms ease, transform 260ms var(--ease-out);
-}
-
-@keyframes composerIn {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-}
-
-.hidden {
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 11px;
-  width: 100%;
-  max-width: 362px;
-  height: 40px;
-}
-
-.inputArea {
-  display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 8px;
-  flex: 1;
-  min-width: 0;
-  max-width: 263px;
+  padding: 8px 16px;
+  transform: translate3d(0, calc(var(--kb, 0) * -311px), 0);
 }
 
-.circle36,
-.circle40 {
+/* + button: 44px glass circle with an SF "plus". */
+.plus {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border-radius: 74px;
-  background: var(--surface-blue-light);
-  transition: transform 240ms var(--ease-spring), background-color 200ms ease;
+  width: 44px;
+  height: 44px;
+  border-radius: 1000px;
+  --press-grow: 1.16;
 }
 
-.circle36:hover,
-.circle40:hover {
-  background-color: rgba(15, 23, 43, 0.16);
-}
-
-.circle36:active,
-.circle40:active {
-  transform: scale(0.88);
-}
-
-.circle36 img {
-  transition: transform 320ms var(--ease-spring);
-}
-
-.circle36:hover img {
-  transform: rotate(-20deg);
-}
-
-.circle36 {
-  width: 36px;
-  height: 36px;
-}
-
-.circle40 {
-  width: 40px;
-  height: 40px;
-}
-
+/* Glass field: min 44 tall, radius 26, 16px leading / 8px trailing padding. */
 .field {
   display: flex;
-  align-items: center;
   flex: 1;
   min-width: 0;
-  height: 40px;
-  padding: 0 12px 0 13px;
-  border: 1px solid var(--stroke-disabled);
-  border-radius: 45px;
-  background: var(--surface-white);
-  transition: border-color 220ms ease, box-shadow 260ms var(--ease-out);
-}
-
-.field:focus-within {
-  border-color: var(--brand-500);
-  box-shadow: 0 0 0 3px rgba(50, 141, 136, 0.14);
+  align-items: flex-end;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 8px 8px 16px;
+  border-radius: 26px;
+  cursor: text;
+  transition: box-shadow var(--spring-smooth-duration) var(--spring-smooth);
 }
 
 .input {
   flex: 1;
   min-width: 0;
+  height: 22px;
+  margin: 3px 0;
   border: 0;
   outline: 0;
+  padding: 0;
   background: transparent;
-  font-family: inherit;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--text-primary);
+  font-family: var(--font-system);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.43px;
+  color: #000;
+  caret-color: #0f172b;
 }
 
 .input::placeholder {
-  color: var(--text-tertiary);
+  color: rgba(0, 0, 0, 0.28);
 }
 
 .sticker {
   display: flex;
   flex-shrink: 0;
-  transition: transform 300ms var(--ease-spring);
-}
-
-.sticker:hover {
-  transform: rotate(-12deg) scale(1.1);
+  margin: 3px 0;
+  align-self: flex-start;
+  transition: transform var(--spring-press-duration) var(--spring-press);
 }
 
 .sticker:active {
   transform: scale(0.85);
 }
 
-.actions {
+/* Mic pill (48 x 29, blue-light) that morphs into the 28px navy send button. */
+.action {
+  position: relative;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 48px;
+  height: 29px;
+  border-radius: 74px;
+  background: var(--surface-blue-light);
+  transition:
+    width var(--spring-glass-duration) var(--spring-glass),
+    height var(--spring-glass-duration) var(--spring-glass),
+    background-color var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-press-duration) var(--spring-press);
 }
 
-/* AI button: white circle with the gradient blob asset cropped inside (node 1:2425). */
+.action:active {
+  transform: scale(0.88);
+  transition-duration: var(--spring-glass-duration), var(--spring-glass-duration), var(--spring-smooth-duration), var(--spring-interactive-duration);
+}
+
+.send {
+  width: 28px;
+  height: 28px;
+  background: #0f172b;
+}
+
+.mic,
+.arrow {
+  position: absolute;
+  transition:
+    opacity var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-bouncy-duration) var(--spring-bouncy);
+}
+
+.arrow {
+  opacity: 0;
+  transform: scale(0.3) translateY(6px);
+}
+
+.send .mic {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.send .arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* AI button (Figma "Group 2147227045", 45px gradient orb). */
 .ai {
   position: relative;
-  width: 40px;
-  height: 40px;
   flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 36px;
-  background: var(--surface-white);
-  transition: transform 260ms var(--ease-spring);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  transition:
+    width var(--spring-glass-duration) var(--spring-glass),
+    margin var(--spring-glass-duration) var(--spring-glass),
+    opacity var(--spring-smooth-duration) var(--spring-smooth),
+    transform var(--spring-glass-duration) var(--spring-glass),
+    filter var(--spring-smooth-duration) var(--spring-smooth);
+  --press-grow: 1.1;
 }
 
-.ai:hover {
-  transform: scale(1.06);
+.ai img {
+  border-radius: 50%;
 }
 
-.ai:active {
-  transform: scale(0.9);
+/* Typing: the AI orb melts into the field's trailing edge while the field takes its room. */
+.typing .ai {
+  width: 0;
+  margin-left: -8px;
+  opacity: 0;
+  transform: translateX(-22px) scale(0.4);
+  filter: blur(4px);
+  pointer-events: none;
 }
 
-.aiGradient {
-  position: absolute;
-  /* Figma: frame at (-3.2, -2.4) with the SVG overflowing by -17.38% / -23.5%. */
-  left: calc(-3.2px - 10.862px);
-  top: calc(-2.4px - 8.203px);
-  max-width: none;
-  /* The gradient blob drifts slowly so the AI button feels alive. */
-  animation: blobDrift 7s var(--ease-in-out) infinite alternate;
-}
-
-@keyframes blobDrift {
-  to {
-    transform: rotate(160deg) scale(1.06);
-  }
-}
-
-.aiIcon {
-  position: absolute;
-  /* Figma: 17.6px frame at (11.2, 11.2) with the SVG overflowing by -9.09% / -23.02%. */
-  left: calc(11.2px - 4.052px);
-  top: calc(11.2px - 1.6px);
-  max-width: none;
-  animation: twinkle 3.2s 1s var(--ease-in-out) infinite;
-}
-
-@keyframes twinkle {
-  0%,
-  80%,
-  100% {
-    transform: none;
-  }
-  88% {
-    transform: rotate(18deg) scale(1.15);
-  }
+.hidden {
+  pointer-events: none;
 }

@@ -11,7 +11,7 @@ export function Stories({ stories }: { stories: Story[] }) {
               <span className={styles.own}>
                 <img className={styles.ownImage} src={story.image} width={56} height={56} alt="" />
                 <span className={styles.addBadge}>
-                  <img src="/figma/plus-small-white.svg" width={13.7143} height={13.7143} alt="" />
+                  <img src="/figma/plus-small-dark.svg" width={13.7143} height={13.7143} alt="" />
                 </span>
               </span>
             ) : (

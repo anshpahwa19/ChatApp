@@ -22,7 +22,7 @@
 
 .mine {
   max-width: 303px;
-  background: var(--brand-600);
+  background: var(--navy-700);
   color: var(--text-white);
   border-radius: var(--radius-bubble) var(--radius-bubble) var(--radius-bubble-tail) var(--radius-bubble);
 }
@@ -104,7 +104,7 @@
 }
 
 .reply {
-  transition: transform 260ms var(--ease-spring), background-color 200ms ease;
+  transition: transform var(--spring-press-duration) var(--spring-press), background-color var(--spring-smooth-duration) var(--spring-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,7 +158,7 @@
 
 .play {
   position: relative;
-  transition: transform 240ms var(--ease-spring);
+  transition: transform var(--spring-press-duration) var(--spring-press);
 }
 
 .play:active {
@@ -173,7 +173,7 @@
   inset: 0;
   border-radius: inherit;
   border: 2px solid rgba(255, 255, 255, 0.7);
-  animation: playRing 1.6s var(--ease-out) infinite;
+  animation: playRing 1.6s var(--spring-smooth) infinite;
 }
 
 .play[aria-pressed="true"]::after {
@@ -246,7 +246,7 @@
   flex-shrink: 0;
   border-radius: 8px;
   background: var(--surface-white-opacity);
-  transition: background-color 200ms ease, transform 240ms var(--ease-spring);
+  transition: background-color var(--spring-smooth-duration) var(--spring-smooth), transform var(--spring-press-duration) var(--spring-press);
 }
 
 .speed:active {

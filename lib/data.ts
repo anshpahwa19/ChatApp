@@ -21,7 +21,7 @@ export type ChatPreview = {
   name: string;
   avatar: AvatarSpec;
   time: string;
-  /** Unread timestamps are shown in brand green and bold. */
+  /** Unread timestamps are shown bold in dark navy. */
   unread?: number;
   /** Shows "3 >" style indicator used for communities. */
   communityCount?: number;
@@ -40,7 +40,7 @@ export const stories: Story[] = [
   { id: "me", name: "Add Story", image: "/figma/story-add.jpg", isOwn: true },
   { id: "yoga", name: "Yoga", image: "/figma/story-yoga.jpg", unseen: true },
   { id: "dono", name: "Dono", image: "/figma/story-dono.jpg" },
-  { id: "scott", name: "Scott", image: "/figma/story-scott.jpg" },
+  { id: "doni", name: "Doni", image: "/figma/story-scott.jpg" },
   { id: "sarah", name: "Sarah", image: "/figma/story-sarah.jpg" },
   { id: "mike", name: "Mike", image: "/figma/story-mike.jpg" },
 ];
@@ -59,7 +59,7 @@ export const chats: ChatPreview[] = [
   {
     id: "garvit",
     name: "Garvit Bhati",
-    avatar: { kind: "initials", initials: "GB", bg: "#cdeaa2", fg: "#415228" },
+    avatar: { kind: "initials", initials: "RG", bg: "#cdeaa2", fg: "#415228" },
     time: "12:12",
     unread: 999,
     message: "Hello, I am coming from delhi",
@@ -97,11 +97,39 @@ export const chats: ChatPreview[] = [
   {
     id: "test-community-2",
     name: "Test Community 2",
-    avatar: { kind: "initials", initials: "TG", bg: "#e2caf3", fg: "#a0317b" },
+    avatar: { kind: "initials", initials: "RG", bg: "#e2caf3", fg: "#a0317b" },
     time: "",
     communityCount: 3,
     message: "Group 1, Group 2, General",
     type: "group",
+  },
+  // v2 list (node 41:2338) repeats these two rows before the rest of the chats.
+  {
+    id: "yogesh-2",
+    name: "Yogesh Rawat",
+    avatar: { kind: "image", src: "/figma/avatar-yogesh.png" },
+    time: "28/09/26",
+    ticks: "seen",
+    message: "Hello, I havent recieved an update yet about you",
+    type: "individual",
+  },
+  {
+    id: "test-community-3",
+    name: "Test Community 2",
+    avatar: { kind: "initials", initials: "RG", bg: "#e2caf3", fg: "#a0317b" },
+    time: "",
+    communityCount: 3,
+    message: "Group 1, Group 2, General",
+    type: "group",
+  },
+  {
+    id: "yogesh-3",
+    name: "Yogesh Rawat",
+    avatar: { kind: "image", src: "/figma/avatar-yogesh.png" },
+    time: "28/09/26",
+    ticks: "seen",
+    message: "Hello, I havent recieved an update yet about you",
+    type: "individual",
   },
   {
     id: "franceska",
@@ -182,6 +210,8 @@ export type Message =
       time: string;
       /** Timestamp sits on its own line under the text (vs. inline). */
       timeBelow?: boolean;
+      /** Width of the text box when the design wraps it narrower than the bubble maximum. */
+      textWidth?: number;
       replyable?: boolean;
       forwarded?: boolean;
       highlight?: boolean;
@@ -213,12 +243,11 @@ export const conversation: Conversation = {
   messages: [
     { id: "d1", kind: "date", label: "Yesterday" },
     { id: "m1", kind: "text", from: "them", text: "Awesome! Want to grab coffee later?", time: "23:01", timeBelow: true },
-    { id: "m2", kind: "text", from: "me", text: "Brooooo I still can’t get over that trip 😭✈️", time: "23:01", ticks: "seen" },
+    { id: "m2", kind: "text", from: "me", text: "Brooooo I still can’t get over that trip 😭✈️", time: "23:01", ticks: "seen", textWidth: 247 },
     { id: "m3", kind: "text", from: "me", text: "I'm great! Just finished a project. How about you?", time: "23:01", ticks: "delivered" },
     { id: "d2", kind: "date", label: "Today" },
     { id: "m4", kind: "text", from: "them", text: "Sure! How about 3pm at the usual place?", time: "23:01", replyable: true },
     { id: "m5", kind: "voice", from: "me", duration: "0:23", time: "23:01", listened: true },
-    { id: "m6", kind: "voice", from: "me", duration: "0:23", time: "23:01" },
     { id: "m7", kind: "text", from: "me", text: "Happy New Year! 🥳", time: "23:01", forwarded: true, highlight: true, ticks: "seen" },
   ],
 };

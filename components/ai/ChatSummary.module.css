@@ -11,7 +11,7 @@
 .header,
 .missed,
 .section {
-  animation: sectionIn 480ms var(--ease-out) backwards;
+  animation: sectionIn var(--spring-snappy-duration) var(--spring-snappy) backwards;
   animation-delay: calc(80ms + var(--i, 0) * 70ms);
 }
 
@@ -123,7 +123,7 @@
   font-size: 12px;
   line-height: 16px;
   white-space: nowrap;
-  animation: duePulse 2.6s 1s var(--ease-in-out) infinite;
+  animation: duePulse 2.6s 1s var(--spring-smooth) infinite;
 }
 
 /* A gentle nudge so the deadline badge draws the eye. */

@@ -11,6 +11,7 @@
   max-width: 393px;
   height: 100dvh;
   overflow: hidden;
+  overflow: clip;
   isolation: isolate;
 }
 

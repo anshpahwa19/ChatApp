@@ -21,21 +21,6 @@
   pointer-events: auto;
 }
 
-.row > * {
-  animation: headerIn 560ms var(--ease-out) backwards;
-}
-
-.row > *:last-child {
-  animation-delay: 90ms;
-}
-
-@keyframes headerIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-}
-
 .left {
   display: flex;
   align-items: center;
@@ -49,11 +34,6 @@
   align-items: center;
   flex-shrink: 0;
   border-radius: 1000px;
-  transition: transform 260ms var(--ease-spring);
-}
-
-.glass:hover {
-  transform: translateY(-1px);
 }
 
 .round,
@@ -63,17 +43,9 @@
   height: 40px;
 }
 
-.round:active,
-.back:active {
-  transform: scale(0.9);
-}
-
-.back img {
-  transition: transform 260ms var(--ease-spring);
-}
-
-.back:hover img {
-  transform: translateX(-2px);
+.round,
+.back {
+  --press-grow: 1.18;
 }
 
 /* Contact pill (component "BG", 185 x 50). */
@@ -84,8 +56,8 @@
   padding: 5px 6px;
 }
 
-.pill:hover {
-  transform: none;
+.pill {
+  --press-grow: 1.05;
 }
 
 .avatar {
@@ -122,7 +94,7 @@
   inset: -2px;
   border-radius: inherit;
   background: #00bc7d;
-  animation: ping 2.4s 0.8s var(--ease-out) infinite;
+  animation: ping 2.4s 0.8s var(--spring-smooth) infinite;
 }
 
 @keyframes ping {
