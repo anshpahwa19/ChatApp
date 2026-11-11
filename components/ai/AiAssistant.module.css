@@ -1,0 +1,195 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  width: 100%;
+}
+
+/* Every row rises in one after another when the sheet opens. */
+.title,
+.feature,
+.range {
+  animation: rowIn 460ms var(--ease-out) backwards;
+  animation-delay: calc(80ms + var(--i, 0) * 45ms);
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 28px;
+}
+
+.title h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Figma: 362px wide with 12px right padding, so the rows run 350px. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 362px;
+  padding-right: 12px;
+}
+
+.summarize {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.featureBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Figma's divider is a zero-height line drawn 1px above its slot. */
+.divider {
+  max-width: none;
+  margin-top: -1px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  border-radius: 20px;
+  transition: transform 240ms var(--ease-spring);
+}
+
+.feature:active {
+  transform: scale(0.98);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  padding-right: 1px;
+  border-radius: 36px;
+  transition: transform 300ms var(--ease-spring);
+}
+
+.feature:hover .icon {
+  transform: scale(1.06) rotate(-4deg);
+}
+
+.tintBlue {
+  background: linear-gradient(to bottom, rgba(191, 202, 244, 0.6), rgba(134, 158, 255, 0.6));
+}
+
+.tintPurple {
+  background: linear-gradient(to bottom, rgba(222, 191, 244, 0.6), rgba(173, 121, 210, 0.6));
+}
+
+.tintPink {
+  background: linear-gradient(to bottom, rgba(238, 203, 232, 0.6), rgba(232, 152, 220, 0.6));
+}
+
+/* "Extract action items" uses a 51px avatar-style circle sitting 1px low inside the 52px slot. */
+.tintLime {
+  width: 51px;
+  height: 51px;
+  margin: 1px 1px 0 0;
+  padding: 2.125px;
+  background: linear-gradient(to bottom, rgba(232, 239, 189, 0.6), rgba(192, 215, 102, 0.6));
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.featureTitle {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--text-primary);
+}
+
+.featureDescription {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.ranges {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rangeRow {
+  display: flex;
+  gap: 8px;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  /* Figma strokes sit inside the box: 7px + 1px border keeps the chip 36px tall. */
+  padding: 7px 12px;
+  /* Gradient stroke ("Stroke" style): teal on the left fading to lime on the right. */
+  border: 1px solid transparent;
+  border-radius: 36px;
+  background:
+    linear-gradient(var(--surface-white), var(--surface-white)) padding-box,
+    linear-gradient(90deg, #1abeae 0%, #b7cf14 100%) border-box;
+  transition:
+    transform 240ms var(--ease-spring),
+    background-color 200ms ease,
+    box-shadow 240ms ease;
+}
+
+.rangeAuto {
+  width: auto;
+}
+
+.range:hover {
+  background:
+    linear-gradient(#f1fbfa, #f1fbfa) padding-box,
+    linear-gradient(90deg, #1abeae 0%, #b7cf14 100%) border-box;
+  box-shadow: 0 4px 12px rgba(26, 190, 174, 0.16);
+}
+
+.range:active {
+  transform: scale(0.94);
+}
+
+/* Gradient label text from the design ("Gradient new"). */
+.range span {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  background-image: linear-gradient(265.76deg, #3e868a 81.877%, #2a9187 99.535%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

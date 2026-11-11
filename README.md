@@ -6,8 +6,9 @@ Next.js (App Router) + TypeScript implementation of the ChatApp mobile designs f
 
 | Route | Figma frame |
 | --- | --- |
-| `/` | **Main chat list**. Scrolling past the header shows the **Main chat list_scroll** compact header. |
-| `/chat/[id]` | **Chat detail**. The paperclip button opens the **Attachments** sheet. |
+| `/` | **Main chat list**. Scrolling past the header shows the **Main chat list_scroll** compact header. The floating AI button opens the **AI Chat Assistant** sheet. |
+| `/chat/[id]` | **Chat detail** with the floating glass header. The paperclip opens the **Attachments** sheet; the AI button opens the **AI Chat Assistant** sheet. |
+| (sheet) | **AI Chat Assistant**. "Summarize chat" or a time-range chip switches the sheet to the **Chat Summary**. |
 
 What works:
 
@@ -15,7 +16,7 @@ What works:
 - Tapping a chat opens it, and the back arrow returns to the list.
 - Tab bar selection.
 - Sending a message with Enter.
-- The attachment sheet closes on outside click or Escape.
+- Sheets (attachments, AI assistant, chat summary) close on outside click or Escape, and resize smoothly when switching views.
 
 ## Development
 
@@ -29,8 +30,9 @@ npm run build    # production build + type check
 
 - `app/`: routes, plus `globals.css` with the design tokens taken from the Figma variables.
 - `components/chat-list/`: chat list screen (header, stories, chips, rows, tab bar).
-- `components/chat/`: chat screen (header, bubbles, voice notes, composer, attachment sheet).
-- `components/ui/`: shared pieces (device frame, status bar, avatar, read ticks).
+- `components/chat/`: chat screen (header, bubbles, voice notes, composer, attachment options).
+- `components/ai/`: AI Chat Assistant and Chat Summary sheet content.
+- `components/ui/`: shared pieces (device frame, status bar, avatar, read ticks, bottom sheet).
 - `lib/data.ts`: mock data matching the designs. Swap it for API data later.
 - `public/figma/`: icons and images exported from the Figma file.
 

@@ -233,3 +233,23 @@ export function getConversation(id: string): Conversation {
     avatar: chat.avatar.kind === "image" ? chat.avatar.src : conversation.avatar,
   };
 }
+
+// ---- AI assistant -----------------------------------------------------------
+
+export type SummaryRange = "2h" | "4h" | "6h" | "24h" | "since-last";
+
+export const summaryRanges: { id: SummaryRange; label: string; description: string }[] = [
+  { id: "2h", label: "Last 2h", description: "Summary of the last 2 hours" },
+  { id: "4h", label: "Last 4h", description: "Summary of the last 4 hours" },
+  { id: "6h", label: "Last 6h", description: "Summary of the last 6 hours" },
+  { id: "24h", label: "Last 24h", description: "Summary of the last 24 hours" },
+  { id: "since-last", label: "Since last summary", description: "Summary since your last summary" },
+];
+
+/** Placeholder summary content from the Figma "Chat Summary" sheet. */
+export const chatSummary = {
+  missed: "Sarah Chen confirmed tomorrow's meeting at 3 PM and requested bring snacks Too. Fix date added for tomorrow.",
+  decisions: ["Contract needs signatures tomorrow at 3 PM", "Fix date added for tomorrow."],
+  actions: ["Contract needs signatures tomorrow at 3 PM", "Fix date added for tomorrow."],
+  deadlines: [{ text: "Contract needs signatures tomorrow at 3 PM", dueToday: true }],
+};

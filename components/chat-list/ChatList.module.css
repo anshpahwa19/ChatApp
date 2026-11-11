@@ -199,3 +199,68 @@
   mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
 }
+
+/* Floating AI button: 56px white circle with the cropped gradient blob, 24px above the tab bar. */
+.aiFab {
+  position: absolute;
+  right: 21px;
+  bottom: 105px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 78px;
+  background: #fff;
+  animation: fabIn 640ms 520ms var(--ease-spring) backwards;
+  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
+}
+
+@keyframes fabIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-30deg);
+  }
+}
+
+.aiFab:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 22px rgba(33, 106, 94, 0.28);
+}
+
+.aiFab:active {
+  transform: scale(0.9);
+}
+
+.aiFabGradient {
+  position: absolute;
+  /* Figma: 57.8 x 59 frame at (0, -4.5) whose SVG overflows by -23.5% left / -17.38% top. */
+  left: -13.578px;
+  top: -14.754px;
+  max-width: none;
+  animation: fabBlob 7s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes fabBlob {
+  to {
+    transform: rotate(160deg) scale(1.06);
+  }
+}
+
+.aiFabIcon {
+  position: relative;
+  animation: fabTwinkle 3.2s 1.4s var(--ease-in-out) infinite;
+}
+
+@keyframes fabTwinkle {
+  0%,
+  80%,
+  100% {
+    transform: none;
+  }
+  88% {
+    transform: rotate(18deg) scale(1.15);
+  }
+}

@@ -1,3 +1,4 @@
+/* No bar behind the header any more: the controls float over the wallpaper. */
 .header {
   position: absolute;
   top: 0;
@@ -6,9 +7,18 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(110.9px);
-  -webkit-backdrop-filter: blur(110.9px);
+  pointer-events: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  /* Figma places the header row at y=49, overlapping the 53px status bar by 4px. */
+  margin-top: -4px;
+  padding: 4px 16px;
+  pointer-events: auto;
 }
 
 .row > * {
@@ -26,14 +36,6 @@
   }
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  padding: 4px 16px;
-}
-
 .left {
   display: flex;
   align-items: center;
@@ -41,31 +43,62 @@
   min-width: 0;
 }
 
-.back {
+/* Web stand-in for the iOS "Liquid Glass" material shared by every header control. */
+.glass {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
   flex-shrink: 0;
-  border-radius: 999px;
-  transition: transform 260ms var(--ease-spring), background-color 200ms ease;
+  border-radius: 1000px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    1.25px 0 0 -0.75px #d0d0d0,
+    -1.25px 0 0 -0.75px #d0d0d0,
+    0 0 0 0.5px #e8e8e8,
+    0 8px 15px rgba(0, 0, 0, 0.02);
+  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
 }
 
-.back:hover {
-  background-color: rgba(15, 23, 43, 0.06);
+.glass:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    1.25px 0 0 -0.75px #d0d0d0,
+    -1.25px 0 0 -0.75px #d0d0d0,
+    0 0 0 0.5px #e8e8e8,
+    0 10px 18px rgba(0, 0, 0, 0.08);
+}
+
+.round,
+.back {
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.round:active,
+.back:active {
+  transform: scale(0.9);
+}
+
+.back img {
+  transition: transform 260ms var(--ease-spring);
+}
+
+.back:hover img {
   transform: translateX(-2px);
 }
 
-.back:active {
-  transform: scale(0.85);
+/* Contact pill (component "BG", 185 x 50). */
+.pill {
+  gap: 8px;
+  width: 185px;
+  height: 50px;
+  padding: 5px 6px;
 }
 
-.info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
+.pill:hover {
+  transform: none;
 }
 
 .avatar {
@@ -121,7 +154,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 154px;
+  width: 119px;
   min-width: 0;
 }
 
@@ -148,36 +181,4 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-/* Web stand-in for the iOS glass button (component "BG", node 1:2353). */
-.glassButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 1000px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow:
-    1.25px 0 0 -0.75px #d0d0d0,
-    -1.25px 0 0 -0.75px #d0d0d0,
-    0 0 0 0.5px #e8e8e8,
-    0 8px 15px rgba(0, 0, 0, 0.02);
-  transition: transform 260ms var(--ease-spring), box-shadow 260ms ease;
-}
-
-.glassButton:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    1.25px 0 0 -0.75px #d0d0d0,
-    -1.25px 0 0 -0.75px #d0d0d0,
-    0 0 0 0.5px #e8e8e8,
-    0 10px 18px rgba(0, 0, 0, 0.08);
-}
-
-.glassButton:active {
-  transform: scale(0.9);
 }

@@ -30,6 +30,27 @@
   overscroll-behavior: contain;
   padding: 119px 16px 104px;
   scrollbar-width: none;
+  scroll-behavior: smooth;
+  /* Messages disappear under the floating header at y=109, as in the scrolled Figma frames. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
+}
+
+.edge {
+  position: absolute;
+  top: 109px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  height: 1px;
+  background: rgba(145, 150, 157, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.edgeOn {
+  opacity: 1;
 }
 
 .scroller::-webkit-scrollbar {

@@ -3,13 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Composer.module.css";
 
-type Props = { onSend: (text: string) => void; onAttach: () => void; hidden?: boolean };
+type Props = {
+  onSend: (text: string) => void;
+  onAttach: () => void;
+  onAssist: () => void;
+  hidden?: boolean;
+};
 
-export function Composer({ onSend, onAttach, hidden }: Props) {
+export function Composer({ onSend, onAttach, onAssist, hidden }: Props) {
   const [text, setText] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Make the bar unreachable while the attachment sheet covers it.
+  // Make the bar unreachable while a sheet covers it.
   useEffect(() => {
     formRef.current?.toggleAttribute("inert", Boolean(hidden));
   }, [hidden]);
@@ -44,7 +49,7 @@ export function Composer({ onSend, onAttach, hidden }: Props) {
           </label>
         </div>
         <div className={styles.actions}>
-          <button type="button" className={styles.ai} aria-label="AI assist">
+          <button type="button" className={styles.ai} aria-label="AI Chat Assistant" onClick={onAssist}>
             <img className={styles.aiGradient} src="/figma/ai-gradient.svg" width={66.2653} height={66.2653} alt="" />
             <img className={styles.aiIcon} src="/figma/ai-sparkle.svg" width={25.707} height={25.707} alt="" />
           </button>

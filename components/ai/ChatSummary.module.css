@@ -1,0 +1,177 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 345px;
+}
+
+/* The heading and each section arrive one after another. */
+.header,
+.missed,
+.section {
+  animation: sectionIn 480ms var(--ease-out) backwards;
+  animation-delay: calc(80ms + var(--i, 0) * 70ms);
+}
+
+@keyframes sectionIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleRow h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.subtitle {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* "What did I miss?" card. */
+.missed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* 15px + 1px inside-stroke, matching Figma's 16px padding. */
+  padding: 15px;
+  border: 1px solid var(--stroke-disabled);
+  border-radius: 20px;
+  background: var(--surface-white);
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.wide {
+  gap: 12px;
+}
+
+.cardHeading h3 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.missedText {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-primary);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deadlineHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.due {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 4px;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #ff7072, #d54e50);
+  color: var(--surface-white);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  animation: duePulse 2.6s 1s var(--ease-in-out) infinite;
+}
+
+/* A gentle nudge so the deadline badge draws the eye. */
+@keyframes duePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 112, 114, 0);
+  }
+  45% {
+    box-shadow: 0 0 0 4px rgba(255, 112, 114, 0.22);
+  }
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 21px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Figma's divider is a zero-height line drawn 1px above its slot. */
+.divider {
+  max-width: 100%;
+  margin-top: -1px;
+}
+
+.deadline {
+  height: 62px;
+}
