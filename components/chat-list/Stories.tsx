@@ -20,7 +20,7 @@ export function Stories({ stories }: { stories: Story[] }) {
                   <img src={story.image} alt="" />
                 </span>
                 {story.unseen && (
-                  <img className={styles.unseenRing} src="/figma/story-ring.svg" width={57} height={57} alt="" />
+                  <UnseenRing />
                 )}
               </span>
             )}
@@ -29,5 +29,30 @@ export function Stories({ stories }: { stories: Story[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * Segmented "new story" ring, drawn as an exact circle on the photo's centre so it stays
+ * concentric while it turns. Matches the Figma ring: white, ~2.15px stroke, radius 26.9,
+ * four segments with rounded ends.
+ */
+function UnseenRing() {
+  return (
+    <svg className={styles.unseenRing} width={56} height={56} viewBox="0 0 56 56" aria-hidden>
+      <circle
+        cx={28}
+        cy={28}
+        r={26.9}
+        fill="none"
+        stroke="#fff"
+        strokeWidth={2.15}
+        strokeLinecap="round"
+        pathLength={100}
+        // 4 segments of 21.9 with 3.1 gaps (3px visible gap once the round caps are added).
+        strokeDasharray="21.9 3.1"
+        strokeDashoffset={-1.55}
+      />
+    </svg>
   );
 }

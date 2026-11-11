@@ -97,14 +97,20 @@
   padding: 4px;
 }
 
-/* The 57px ring art is centred on the 56px slot. */
+/* Exact circle sharing the photo's centre (28, 28), so the slow spin can't drift. */
 .unseenRing {
   position: absolute;
-  top: -0.5px;
-  left: -0.5px;
-  /* Static, as in Figma: spinning put the segment gaps in arbitrary places
-     and made any sub-pixel offset wobble. It fades in with the story instead. */
+  inset: 0;
+  overflow: visible;
   pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: ringSpin 14s linear infinite;
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .avatar {
