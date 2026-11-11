@@ -25,7 +25,8 @@ export function TabBar({ initial = "chats" }: { initial?: TabId }) {
   useLayoutEffect(() => {
     const measure = () => {
       const el = tabRefs.current[active];
-      if (el) setPill({ x: el.offsetLeft - 2, w: el.offsetWidth + 4.4 });
+      // 2.2px wider than the tab on each side, centred on it.
+      if (el) setPill({ x: el.offsetLeft - 2.2, w: el.offsetWidth + 4.4 });
     };
     measure();
     window.addEventListener("resize", measure);
@@ -34,8 +35,7 @@ export function TabBar({ initial = "chats" }: { initial?: TabId }) {
 
   return (
     <nav className={styles.wrap} aria-label="Main">
-      <div className={styles.bar}>
-        <div className={`${styles.glass} liquid-glass`} aria-hidden />
+      <div className={`${styles.bar} liquid-glass`}>
         {pill && (
           <span
             className={`${styles.selection} ${animatePill ? styles.gliding : ""}`}
