@@ -4,7 +4,8 @@
   right: 0;
   bottom: 2px;
   z-index: 6;
-  padding: 12px 21px 25px;
+  /* 20px sides: the glass bar is 353px wide, as in Figma (Tab Bar frame 395px, Bar inset 21px). */
+  padding: 12px 20px 25px;
   animation: barIn 700ms 250ms var(--ease-spring) backwards;
 }
 
@@ -64,8 +65,8 @@
   bottom: 4px;
   left: 0;
   border-radius: 100px;
-  background: #e9eaea;
-  box-shadow: 0 0 0 0.5px rgba(15, 23, 43, 0.05);
+  /* Translucent grey like Figma's "Fills - Vibrant/Tertiary": ~30 levels darker than the bar. */
+  background: rgba(118, 128, 126, 0.24);
 }
 
 .gliding {

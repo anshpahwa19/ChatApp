@@ -25,8 +25,15 @@ export function TabBar({ initial = "chats" }: { initial?: TabId }) {
   useLayoutEffect(() => {
     const measure = () => {
       const el = tabRefs.current[active];
-      // 2.2px wider than the tab on each side, centred on it.
-      if (el) setPill({ x: el.offsetLeft - 2.2, w: el.offsetWidth + 4.4 });
+      const bar = el?.parentElement;
+      if (!el || !bar) return;
+      // Layout values (unrounded and unaffected by the bar's entrance transform):
+      // tabs are equal width and overlap by 8px, starting after the bar's left padding.
+      const w = parseFloat(getComputedStyle(el).width);
+      const start = parseFloat(getComputedStyle(bar).paddingLeft);
+      const index = TABS.findIndex((t) => t.id === active);
+      // Figma "Selection": 2px past the tab on the left, 2.4px on the right (79 x 50 on a 74.6px tab).
+      setPill({ x: start + index * (w - 8) - 2, w: w + 4.4 });
     };
     measure();
     window.addEventListener("resize", measure);
