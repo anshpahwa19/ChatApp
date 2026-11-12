@@ -1,0 +1,212 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 362px;
+}
+
+/* Rows rise in after the bar has grown; they fade out quickly on delete / send. */
+.panel > * {
+  animation: rowIn 420ms var(--ease-out) backwards;
+}
+
+.panel > *:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.panel > *:nth-child(3) {
+  animation-delay: 110ms;
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.leaving > * {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 180ms ease, transform 220ms var(--ease-in-out);
+}
+
+/* ---- Status row ------------------------------------------------------------ */
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+}
+
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-danger);
+}
+
+.statePaused {
+  color: var(--text-secondary);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1.2s var(--ease-in-out) infinite;
+}
+
+.statePaused .dot {
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+}
+
+.timer {
+  font-weight: 600;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+/* ---- Waveform -------------------------------------------------------------- */
+.wave {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  /* Older samples fade out towards the left edge. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28%);
+  mask-image: linear-gradient(to right, transparent 0, #000 28%);
+}
+
+.wave span {
+  width: 3px;
+  min-height: 6px;
+  border-radius: 2px;
+  background: var(--brand-600);
+  transition: height 90ms linear;
+}
+
+/* ---- Controls -------------------------------------------------------------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 8px;
+}
+
+.delete,
+.send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 1000px;
+  transition: transform 240ms var(--ease-spring), background-color 200ms ease;
+}
+
+.delete {
+  color: var(--text-danger);
+  background: rgba(240, 67, 73, 0.1);
+}
+
+.delete:hover {
+  background: rgba(240, 67, 73, 0.16);
+}
+
+.send {
+  color: #fff;
+  background: var(--brand-700);
+  box-shadow: 0 6px 16px rgba(33, 106, 94, 0.3);
+}
+
+.delete:active,
+.send:active {
+  transform: scale(0.88);
+}
+
+/* Mic orb: brand gradient that breathes with the voice level (--level, 0..1). */
+.orb {
+  --level: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  color: #fff;
+  background:
+    radial-gradient(70% 70% at 30% 25%, rgba(125, 168, 170, 0.9), rgba(125, 168, 170, 0) 70%),
+    radial-gradient(80% 80% at 70% 80%, #065e3f, rgba(6, 94, 63, 0) 75%),
+    #296072;
+  box-shadow:
+    0 0 0 calc(var(--level) * 10px) rgba(42, 118, 101, 0.18),
+    0 10px 24px rgba(33, 106, 94, 0.35);
+  transform: scale(calc(1 + var(--level) * 0.08));
+  animation: orbIn 560ms var(--ease-spring) backwards;
+  animation-delay: 80ms;
+  transition: background 300ms ease;
+}
+
+@keyframes orbIn {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Two soft rings that ripple out while speaking. */
+.orb::before,
+.orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(42, 118, 101, 0.35);
+  animation: ripple 1.8s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+.orb::after {
+  animation-delay: 0.9s;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+.orbPaused {
+  background: var(--text-secondary);
+  box-shadow: 0 8px 20px rgba(15, 23, 43, 0.25);
+}
+
+.orbPaused::before,
+.orbPaused::after {
+  animation: none;
+  opacity: 0;
+}
+
+.orb:active {
+  transform: scale(0.9);
+}

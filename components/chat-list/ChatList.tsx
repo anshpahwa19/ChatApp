@@ -6,6 +6,7 @@ import { AiAssistant } from "@/components/ai/AiAssistant";
 import { ChatSummary } from "@/components/ai/ChatSummary";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { useInstantEntrance } from "@/lib/navigation";
+import { StatusViewer } from "@/components/status/StatusViewer";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StatusBar } from "@/components/ui/StatusBar";
 import { ChatRow } from "./ChatRow";
@@ -29,6 +30,17 @@ export function ChatList() {
   const [lastSheet, setLastSheet] = useState<"ai" | "summary">("ai");
   const [range, setRange] = useState<SummaryRange>("24h");
   const closeSheet = useCallback(() => setSheet(null), []);
+
+  // View Status screen
+  const [viewer, setViewer] = useState<{ id: string; origin: { x: number; y: number } } | null>(null);
+  const [seen, setSeen] = useState<Set<string>>(new Set());
+  const markSeen = useCallback((id: string) => setSeen((s) => (s.has(id) ? s : new Set(s).add(id))), []);
+  const openStatus = useCallback((id: string, from: HTMLElement) => {
+    const device = from.closest("[data-device]")!.getBoundingClientRect();
+    const r = from.getBoundingClientRect();
+    setViewer({ id, origin: { x: r.left + r.width / 2 - device.left, y: r.top + r.height / 2 - device.top } });
+  }, []);
+  const closeStatus = useCallback(() => setViewer(null), []);
   const view = sheet ?? lastSheet;
 
   function openSheet(next: "ai" | "summary") {
@@ -85,7 +97,7 @@ export function ChatList() {
                 </button>
               </div>
             </div>
-            <Stories stories={stories} />
+            <Stories stories={stories} seen={seen} onOpen={openStatus} />
           </div>
         </header>
 
@@ -120,6 +132,16 @@ export function ChatList() {
       </button>
 
       <TabBar />
+
+      {viewer && (
+        <StatusViewer
+          stories={stories}
+          startId={viewer.id}
+          origin={viewer.origin}
+          onSeen={markSeen}
+          onClose={closeStatus}
+        />
+      )}
 
       <BottomSheet
         open={sheet !== null}

@@ -11,6 +11,8 @@
   max-width: 393px;
   height: 100dvh;
   overflow: hidden;
+  /* clip (unlike hidden) cannot be scrolled programmatically, e.g. by focus or scroll-into-view. */
+  overflow: clip;
   isolation: isolate;
 }
 

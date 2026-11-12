@@ -11,7 +11,7 @@ type Props = {
 export function PhoneFrame({ children, className, instant }: Props) {
   return (
     <div className={styles.stage}>
-      <div className={`${styles.device} ${className ?? ""}`} data-instant={instant || undefined}>{children}</div>
+      <div className={`${styles.device} ${className ?? ""}`} data-instant={instant || undefined} data-device>{children}</div>
     </div>
   );
 }

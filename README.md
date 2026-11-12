@@ -8,6 +8,8 @@ Next.js (App Router) + TypeScript implementation of the ChatApp mobile designs f
 | --- | --- |
 | `/` | **Main chat list**. Scrolling past the header shows the **Main chat list_scroll** compact header. The floating AI button opens the **AI Chat Assistant** sheet. |
 | `/chat/[id]` | **Chat detail** with the floating glass header. The paperclip opens the **Attachments** sheet; the AI button opens the **AI Chat Assistant** sheet. |
+| (overlay) | **View Status**: tap a story. Tap right/left to move, hold to pause, swipe down or Esc to close, reply or like. |
+| (composer) | **Voice note recording**: tap the mic with an empty message box. Live waveform (real mic level when allowed), pause/resume, delete, send. |
 | (sheet) | **AI Chat Assistant**. "Summarize chat" or a time-range chip switches the sheet to the **Chat Summary**. |
 
 What works:
@@ -32,6 +34,7 @@ npm run build    # production build + type check
 - `components/chat-list/`: chat list screen (header, stories, chips, rows, tab bar).
 - `components/chat/`: chat screen (header, bubbles, voice notes, composer, attachment options).
 - `components/ai/`: AI Chat Assistant and Chat Summary sheet content.
+- `components/status/`: View Status screen.
 - `components/ui/`: shared pieces (device frame, status bar, avatar, read ticks, bottom sheet).
 - `lib/data.ts`: mock data matching the designs. Swap it for API data later.
 - `public/figma/`: icons and images exported from the Figma file.

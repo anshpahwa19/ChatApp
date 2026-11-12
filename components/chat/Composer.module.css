@@ -23,6 +23,19 @@
   }
 }
 
+/* Recording: the bar grows with a spring to fit the voice-note panel. */
+.bar {
+  transition:
+    opacity 160ms ease,
+    transform 260ms var(--ease-out),
+    height 460ms var(--ease-spring);
+}
+
+.recording {
+  height: 196px;
+  padding: 16px 15px 20px;
+}
+
 .hidden {
   opacity: 0;
   transform: translateY(16px);

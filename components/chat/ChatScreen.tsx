@@ -37,6 +37,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   const [lastSheet, setLastSheet] = useState<SheetView>("attach");
   const [range, setRange] = useState<SummaryRange>("24h");
   const [scrolled, setScrolled] = useState(false);
+  const [recording, setRecording] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
   const initialCount = useRef(conversation.messages.length);
@@ -49,16 +50,18 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages.length]);
 
-  // While a sheet is open, make room under the messages and bring the latest ones into view above it.
+  // While a sheet or the voice recorder is open, make room under the messages and bring
+  // the latest ones into view above it.
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el || sheet === null) return;
-    el.style.paddingBottom = `${SHEET_HEIGHT[sheet] + 16}px`;
+    const cover = sheet !== null ? SHEET_HEIGHT[sheet] : recording ? 196 : null;
+    if (!el || cover === null) return;
+    el.style.paddingBottom = `${cover + 16}px`;
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
     return () => {
       el.style.paddingBottom = "";
     };
-  }, [sheet]);
+  }, [sheet, recording]);
 
   function openSheet(view: SheetView) {
     setLastSheet(view);
@@ -67,6 +70,19 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
 
   const closeSheet = useCallback(() => setSheet(null), []);
   const view = sheet ?? lastSheet;
+
+  function sendVoice(seconds: number) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `voice-${Date.now()}`,
+        kind: "voice",
+        from: "me",
+        duration: `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`,
+        time: nowTime(),
+      },
+    ]);
+  }
 
   function send(text: string) {
     setMessages((prev) => [
@@ -107,6 +123,8 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
         onSend={send}
         onAttach={() => openSheet("attach")}
         onAssist={() => openSheet("ai")}
+        onSendVoice={sendVoice}
+        onRecordingChange={setRecording}
         hidden={sheet !== null}
       />
       <BottomSheet

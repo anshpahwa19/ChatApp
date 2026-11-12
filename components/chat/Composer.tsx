@@ -1,17 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { VoiceRecorder } from "./VoiceRecorder";
 import styles from "./Composer.module.css";
 
 type Props = {
   onSend: (text: string) => void;
   onAttach: () => void;
   onAssist: () => void;
+  /** Sends a recorded voice note of the given length. */
+  onSendVoice: (seconds: number) => void;
+  /** Lets the screen make room above the taller recording panel. */
+  onRecordingChange?: (recording: boolean) => void;
   hidden?: boolean;
 };
 
-export function Composer({ onSend, onAttach, onAssist, hidden }: Props) {
+export function Composer({ onSend, onAttach, onAssist, onSendVoice, onRecordingChange, hidden }: Props) {
   const [text, setText] = useState("");
+  const [recording, setRecording] = useState(false);
+
+  function setRec(on: boolean) {
+    setRecording(on);
+    onRecordingChange?.(on);
+  }
   const formRef = useRef<HTMLFormElement>(null);
 
   // Make the bar unreachable while a sheet covers it.
@@ -28,7 +39,20 @@ export function Composer({ onSend, onAttach, onAssist, hidden }: Props) {
   }
 
   return (
-    <form ref={formRef} className={`${styles.bar} ${hidden ? styles.hidden : ""}`} onSubmit={submit}>
+    <form
+      ref={formRef}
+      className={`${styles.bar} ${recording ? styles.recording : ""} ${hidden ? styles.hidden : ""}`}
+      onSubmit={submit}
+    >
+      {recording ? (
+        <VoiceRecorder
+          onCancel={() => setRec(false)}
+          onSend={(seconds) => {
+            setRec(false);
+            onSendVoice(seconds);
+          }}
+        />
+      ) : (
       <div className={styles.inner}>
         <div className={styles.inputArea}>
           <button type="button" className={styles.circle36} aria-label="Attach" onClick={onAttach}>
@@ -53,11 +77,18 @@ export function Composer({ onSend, onAttach, onAssist, hidden }: Props) {
             <img className={styles.aiGradient} src="/figma/ai-gradient.svg" width={66.2653} height={66.2653} alt="" />
             <img className={styles.aiIcon} src="/figma/ai-sparkle.svg" width={25.707} height={25.707} alt="" />
           </button>
-          <button type="submit" className={styles.circle40} aria-label={text.trim() ? "Send message" : "Record voice note"}>
+          {/* With text it sends; with an empty box it starts a voice note. */}
+          <button
+            type={text.trim() ? "submit" : "button"}
+            className={styles.circle40}
+            aria-label={text.trim() ? "Send message" : "Record voice note"}
+            onClick={text.trim() ? undefined : () => setRec(true)}
+          >
             <img src="/figma/mic.svg" width={20} height={20} alt="" />
           </button>
         </div>
       </div>
+      )}
     </form>
   );
 }

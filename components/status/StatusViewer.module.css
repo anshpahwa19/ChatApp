@@ -1,0 +1,394 @@
+/* Full-screen status viewer. Zooms out of the tapped avatar (--ox, --oy) and back into it. */
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  color: #fff;
+  background: rgba(6, 20, 16, var(--fade, 1));
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Images must not start a native drag, which would cancel the swipe-down gesture. */
+.root img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+  animation: viewerIn 420ms var(--ease-out) both;
+}
+
+.closing {
+  animation: viewerOut 260ms var(--ease-in-out) both;
+  pointer-events: none;
+}
+
+@keyframes viewerIn {
+  from {
+    clip-path: circle(26px at var(--ox) var(--oy));
+  }
+  to {
+    clip-path: circle(150% at var(--ox) var(--oy));
+  }
+}
+
+@keyframes viewerOut {
+  from {
+    clip-path: circle(150% at var(--ox) var(--oy));
+    opacity: 1;
+  }
+  to {
+    clip-path: circle(26px at var(--ox) var(--oy));
+    opacity: 0.6;
+  }
+}
+
+/* Everything moves with a drag-down; the content shrinks slightly like an iOS card. */
+.sheet {
+  position: absolute;
+  inset: 0;
+  transform: translateY(var(--drag, 0px)) scale(var(--dragScale, 1));
+  transform-origin: 50% 0;
+  border-radius: calc(min(var(--drag, 0px), 60px) / 2);
+  overflow: hidden;
+  transition: transform 380ms var(--ease-spring), border-radius 380ms var(--ease-spring);
+}
+
+.dragging {
+  transition: none;
+}
+
+/* ---- Status content ------------------------------------------------------ */
+.stage {
+  position: absolute;
+  inset: 0;
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-out);
+  animation-fill-mode: backwards;
+}
+
+.fromRight {
+  animation-name: stageFromRight;
+}
+
+.fromLeft {
+  animation-name: stageFromLeft;
+}
+
+@keyframes stageFromRight {
+  from {
+    opacity: 0.4;
+    transform: translateX(28px) scale(0.98);
+  }
+}
+
+@keyframes stageFromLeft {
+  from {
+    opacity: 0.4;
+    transform: translateX(-28px) scale(0.98);
+  }
+}
+
+/* Photo statuses: the photo as a card over a blurred, darkened copy of itself. */
+.backdrop {
+  position: absolute;
+  inset: -48px;
+  width: calc(100% + 96px);
+  height: calc(100% + 96px);
+  object-fit: cover;
+  filter: blur(32px) saturate(1.25) brightness(0.55);
+  transform: scale(1.05);
+}
+
+.photoCard {
+  position: absolute;
+  top: calc(var(--sb) + 92px);
+  bottom: 96px;
+  left: 12px;
+  right: 12px;
+  margin: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.18),
+    0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.photoCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoCard figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 48px 20px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Text statuses: large type on a brand gradient, crisp at any size. */
+.textStatus {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 32px;
+}
+
+.textStatus p {
+  margin: 0;
+  max-width: 320px;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: -0.2px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.brand {
+  background:
+    radial-gradient(90% 60% at 15% 10%, rgba(125, 168, 170, 0.55), rgba(125, 168, 170, 0) 70%),
+    radial-gradient(80% 60% at 85% 85%, rgba(6, 94, 63, 0.9), rgba(6, 94, 63, 0) 70%),
+    linear-gradient(160deg, #2a7665 0%, #296072 55%, #1b4f47 100%);
+}
+
+.plum {
+  background:
+    radial-gradient(90% 60% at 15% 10%, rgba(232, 152, 220, 0.45), rgba(232, 152, 220, 0) 70%),
+    radial-gradient(80% 60% at 85% 85%, rgba(68, 40, 110, 0.85), rgba(68, 40, 110, 0) 70%),
+    linear-gradient(160deg, #8a4d8f 0%, #5c3f8f 55%, #3a2c6b 100%);
+}
+
+/* ---- Top bar --------------------------------------------------------------- */
+.topScrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 170px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.progress {
+  display: flex;
+  gap: 4px;
+  margin: 8px 12px 0;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.done {
+  transform: none;
+}
+
+.running {
+  animation-name: fillTrack;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fillTrack {
+  to {
+    transform: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 0 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.time {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 1000px;
+  color: #fff;
+  transition: transform 240ms var(--ease-spring);
+}
+
+.iconButton:active {
+  transform: scale(0.88);
+}
+
+/* ---- Reply bar ------------------------------------------------------------- */
+.reply {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.replyField {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 1000px;
+}
+
+.replyField input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.replyField input::placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.like {
+  width: 44px;
+  height: 44px;
+}
+
+.liked {
+  color: #ff6b7a;
+}
+
+.liked svg {
+  animation: likePop 520ms var(--ease-spring);
+}
+
+@keyframes likePop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.7);
+  }
+  70% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 1000px;
+  background: #fff;
+  color: var(--brand-700);
+  animation: sendIn 360ms var(--ease-spring);
+  transition: transform 240ms var(--ease-spring);
+}
+
+.send:active {
+  transform: scale(0.88);
+}
+
+@keyframes sendIn {
+  from {
+    transform: scale(0.4) rotate(-30deg);
+    opacity: 0;
+  }
+}
+
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 84px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 1000px;
+  font-weight: 600;
+  font-size: 14px;
+  transform: translateX(-50%);
+  animation: toastIn 420ms var(--ease-spring);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.9);
+  }
+}

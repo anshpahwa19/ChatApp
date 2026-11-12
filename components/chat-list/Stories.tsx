@@ -1,12 +1,27 @@
 import type { Story } from "@/lib/data";
 import styles from "./Stories.module.css";
 
-export function Stories({ stories }: { stories: Story[] }) {
+type Props = {
+  stories: Story[];
+  /** Ids of stories already viewed this session; their ring turns plain white. */
+  seen?: Set<string>;
+  /** Opens the View Status screen; `from` is the tapped avatar, for the zoom-in. */
+  onOpen?: (id: string, from: HTMLElement) => void;
+};
+
+export function Stories({ stories, seen, onOpen }: Props) {
   return (
     <ul className={styles.row} aria-label="Stories">
       {stories.map((story, i) => (
         <li key={story.id} className={styles.item} style={{ "--i": i } as React.CSSProperties}>
-          <button type="button" className={styles.button} aria-label={story.isOwn ? "Add story" : `${story.name}'s story`}>
+          <button
+            type="button"
+            className={styles.button}
+            aria-label={story.isOwn ? "Add story" : `View ${story.name}'s status`}
+            onClick={(e) => {
+              if (!story.isOwn && story.items?.length) onOpen?.(story.id, e.currentTarget.firstElementChild as HTMLElement);
+            }}
+          >
             {story.isOwn ? (
               <span className={styles.own}>
                 <img className={styles.ownImage} src={story.image} width={56} height={56} alt="" />
@@ -15,13 +30,11 @@ export function Stories({ stories }: { stories: Story[] }) {
                 </span>
               </span>
             ) : (
-              <span className={`${styles.ring} ${story.unseen ? styles.unseen : ""}`}>
+              <span className={`${styles.ring} ${story.unseen && !seen?.has(story.id) ? styles.unseen : ""}`}>
                 <span className={styles.avatar}>
                   <img src={story.image} alt="" />
                 </span>
-                {story.unseen && (
-                  <UnseenRing />
-                )}
+                {story.unseen && !seen?.has(story.id) && <UnseenRing />}
               </span>
             )}
             <span className={styles.label}>{story.name}</span>
