@@ -3,10 +3,13 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { glassPress } from "@/lib/useGlassPress";
 import { Keyboard } from "./Keyboard";
+import { VoiceRecorder } from "./VoiceRecorder";
 import styles from "./Composer.module.css";
 
 type Props = {
   onSend: (text: string) => void;
+  /** Sends a recorded voice note of the given length. */
+  onSendVoice: (seconds: number) => void;
   onAttach: () => void;
   onAssist: () => void;
   /** Called with true while the on-screen keyboard is up (so the chat can make room). */
@@ -31,10 +34,11 @@ function wantsOnScreenKeyboard() {
  * SwiftUI's GlassEffectContainer with matching glassEffectIDs.
  */
 export const Composer = forwardRef<ComposerHandle, Props>(function Composer(
-  { onSend, onAttach, onAssist, onKeyboard, hidden },
+  { onSend, onSendVoice, onAttach, onAssist, onKeyboard, hidden },
   ref,
 ) {
   const [text, setText] = useState("");
+  const [recording, setRecording] = useState(false);
   const [focused, setFocused] = useState(false);
   const [onScreen] = useState(wantsOnScreenKeyboard);
   // The keyboard is up while the field has focus; tapping the conversation blurs it (and so
@@ -77,6 +81,16 @@ export const Composer = forwardRef<ComposerHandle, Props>(function Composer(
           send();
         }}
       >
+        {recording ? (
+          <VoiceRecorder
+            onCancel={() => setRecording(false)}
+            onSend={(seconds) => {
+              setRecording(false);
+              onSendVoice(seconds);
+            }}
+          />
+        ) : (
+          <>
         <button
           ref={plusRef}
           type="button"
@@ -110,6 +124,11 @@ export const Composer = forwardRef<ComposerHandle, Props>(function Composer(
             className={`${styles.action} ${hasText ? styles.send : ""}`}
             aria-label={hasText ? "Send message" : "Record voice note"}
             onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              if (hasText) return;
+              inputRef.current?.blur();
+              setRecording(true);
+            }}
           >
             <img className={styles.mic} src="/figma/mic-dark.svg" width={20} height={20} alt="" />
             <ArrowUpGlyph className={styles.arrow} />
@@ -127,6 +146,8 @@ export const Composer = forwardRef<ComposerHandle, Props>(function Composer(
         >
           <img src="/figma/ai-button.svg" width={45} height={45} alt="" />
         </button>
+          </>
+        )}
       </form>
 
       <Keyboard

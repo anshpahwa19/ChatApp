@@ -99,6 +99,19 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   const closeSheet = useCallback(() => setSheet(null), []);
   const view = sheet ?? lastSheet;
 
+  function sendVoice(seconds: number) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `local-${Date.now()}`,
+        kind: "voice",
+        from: "me",
+        duration: `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`,
+        time: nowTime(),
+      },
+    ]);
+  }
+
   function send(text: string) {
     setMessages((prev) => [
       ...prev,
@@ -141,6 +154,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
         <Composer
           ref={composerRef}
           onSend={send}
+          onSendVoice={sendVoice}
           onAttach={() => openSheet("attach")}
           onAssist={() => openSheet("ai")}
           onKeyboard={onKeyboard}

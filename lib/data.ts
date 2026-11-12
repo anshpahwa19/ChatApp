@@ -7,6 +7,9 @@ export type Story = {
   image: string;
   isOwn?: boolean;
   unseen?: boolean;
+  /** Shown in the status viewer. */
+  time?: string;
+  caption?: string;
 };
 
 export type AvatarSpec =
@@ -38,11 +41,11 @@ export type ChatPreview = {
 
 export const stories: Story[] = [
   { id: "me", name: "Add Story", image: "/figma/story-add.jpg", isOwn: true },
-  { id: "yoga", name: "Yoga", image: "/figma/story-yoga.jpg", unseen: true },
-  { id: "dono", name: "Dono", image: "/figma/story-dono.jpg" },
-  { id: "doni", name: "Doni", image: "/figma/story-scott.jpg" },
-  { id: "sarah", name: "Sarah", image: "/figma/story-sarah.jpg" },
-  { id: "mike", name: "Mike", image: "/figma/story-mike.jpg" },
+  { id: "yoga", name: "Yoga", image: "/figma/story-yoga.jpg", unseen: true, time: "12m ago", caption: "Sunrise flow before work 🧘" },
+  { id: "dono", name: "Dono", image: "/figma/story-dono.jpg", time: "1h ago", caption: "New headshot, thoughts?" },
+  { id: "doni", name: "Doni", image: "/figma/story-scott.jpg", time: "3h ago" },
+  { id: "sarah", name: "Sarah", image: "/figma/story-sarah.jpg", time: "5h ago", caption: "Weekend mood ☀️" },
+  { id: "mike", name: "Mike", image: "/figma/story-mike.jpg", time: "Yesterday" },
 ];
 
 export const chats: ChatPreview[] = [

@@ -11,6 +11,7 @@ import { ChatRow } from "./ChatRow";
 import { CompactHeader } from "./CompactHeader";
 import { FilterChips, type Filter } from "./FilterChips";
 import { Stories } from "./Stories";
+import { StatusViewer } from "@/components/status/StatusViewer";
 import { TabBar } from "./TabBar";
 import styles from "./ChatList.module.css";
 
@@ -23,6 +24,10 @@ export function ChatList() {
   const [filter, setFilter] = useState<Filter>("all");
   const [compact, setCompact] = useState(false);
   const screenRef = useRef<HTMLDivElement>(null);
+  const [viewer, setViewer] = useState<{ index: number; origin: DOMRect } | null>(null);
+  const [seen, setSeen] = useState<Set<string>>(() => new Set());
+  const viewable = useMemo(() => stories.filter((s) => !s.isOwn), []);
+  const markSeen = useCallback((id: string) => setSeen((prev) => (prev.has(id) ? prev : new Set(prev).add(id))), []);
   const contentRef = useRef<HTMLDivElement>(null);
   const fabRef = useRef<HTMLButtonElement>(null);
   const [sheet, setSheet] = useState<"ai" | "summary" | null>(null);
@@ -90,7 +95,11 @@ export function ChatList() {
                   </button>
                 </div>
               </div>
-              <Stories stories={stories} />
+              <Stories
+                stories={stories}
+                seen={seen}
+                onOpen={(id, origin) => setViewer({ index: viewable.findIndex((s) => s.id === id), origin })}
+              />
             </div>
           </header>
 
@@ -148,6 +157,17 @@ export function ChatList() {
           <ChatSummary range={range} />
         )}
       </BottomSheet>
+
+      {viewer && (
+        <StatusViewer
+          stories={viewable}
+          startIndex={viewer.index}
+          origin={viewer.origin}
+          frame={screenRef.current}
+          onSeen={markSeen}
+          onClose={() => setViewer(null)}
+        />
+      )}
     </div>
   );
 }

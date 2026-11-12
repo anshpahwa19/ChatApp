@@ -1,12 +1,29 @@
 import type { Story } from "@/lib/data";
 import styles from "./Stories.module.css";
 
-export function Stories({ stories }: { stories: Story[] }) {
+type Props = {
+  stories: Story[];
+  /** Statuses already viewed this session lose their "new" ring. */
+  seen?: Set<string>;
+  /** Opens the status viewer, zooming out of the tapped ring. */
+  onOpen?: (id: string, origin: DOMRect) => void;
+};
+
+export function Stories({ stories, seen, onOpen }: Props) {
   return (
     <ul className={styles.row} aria-label="Stories">
       {stories.map((story, i) => (
         <li key={story.id} className={styles.item} style={{ "--i": i } as React.CSSProperties}>
-          <button type="button" className={styles.button} aria-label={story.isOwn ? "Add story" : `${story.name}'s story`}>
+          <button
+            type="button"
+            className={styles.button}
+            aria-label={story.isOwn ? "Add story" : `${story.name}'s story`}
+            onClick={(e) => {
+              if (story.isOwn) return;
+              const ring = e.currentTarget.firstElementChild as HTMLElement;
+              onOpen?.(story.id, ring.getBoundingClientRect());
+            }}
+          >
             {story.isOwn ? (
               <span className={styles.own}>
                 <img className={styles.ownImage} src={story.image} width={56} height={56} alt="" />
@@ -15,11 +32,11 @@ export function Stories({ stories }: { stories: Story[] }) {
                 </span>
               </span>
             ) : (
-              <span className={`${styles.ring} ${story.unseen ? styles.unseen : ""}`}>
+              <span className={`${styles.ring} ${story.unseen && !seen?.has(story.id) ? styles.unseen : ""}`}>
                 <span className={styles.avatar}>
                   <img src={story.image} alt="" />
                 </span>
-                {story.unseen && (
+                {story.unseen && !seen?.has(story.id) && (
                   <UnseenRing />
                 )}
               </span>

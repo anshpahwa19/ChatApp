@@ -1,0 +1,225 @@
+/* Recording row: the composer's + / field / AI orb morph into trash / waveform / send. */
+.row {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.trash {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 1000px;
+  animation: swapIn var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
+  --press-grow: 1.16;
+}
+
+@keyframes swapIn {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.3);
+  }
+}
+
+/* The field stretches out from the mic's position (its right end) into the recording strip. */
+.strip {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 45px;
+  padding: 0 8px 0 16px;
+  border-radius: 26px;
+  transform-origin: 100% 50%;
+  animation: stripIn var(--spring-glass-duration) var(--spring-glass) backwards;
+}
+
+@keyframes stripIn {
+  from {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff3b30;
+  animation: blink 1.2s var(--spring-smooth) infinite;
+}
+
+.dotPaused {
+  background: var(--text-tertiary);
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.time {
+  flex-shrink: 0;
+  min-width: 34px;
+  font-family: var(--font-system);
+  font-variant-numeric: tabular-nums;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Live waveform: newest bar on the right, each bar's height eased with a spring. */
+.wave {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  min-width: 0;
+  height: 28px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%);
+  mask-image: linear-gradient(to right, transparent, #000 24%);
+}
+
+.wave span {
+  flex-shrink: 0;
+  width: 3px;
+  height: 26px;
+  border-radius: 2px;
+  background: var(--navy-700);
+  transform-origin: 50% 50%;
+  transition: transform var(--spring-interactive-duration) var(--spring-interactive);
+}
+
+.pause {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 29px;
+  border-radius: 74px;
+  background: var(--surface-blue-light);
+  color: var(--text-primary);
+  transition: transform var(--spring-press-duration) var(--spring-press);
+}
+
+.pause:active {
+  transform: scale(0.85);
+}
+
+.send {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #5a5f87 0%, #303b56 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  animation: sendIn var(--spring-bouncy-duration) 60ms var(--spring-bouncy) backwards;
+  --press-grow: 1.1;
+}
+
+@keyframes sendIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+/* ---- Speaking orb ---------------------------------------------------------------
+   Floats above the composer; --level (0..1, the voice loudness) is written every frame. */
+.speaking {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: orbIn var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
+}
+
+@keyframes orbIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px) scale(0.4);
+  }
+}
+
+.orb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 132px;
+}
+
+/* Soft glass halos that breathe out with the voice. */
+.ring {
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
+  transform: scale(calc(1 + var(--level, 0) * 0.55));
+  transition: transform var(--spring-interactive-duration) var(--spring-interactive);
+}
+
+.ring2 {
+  inset: 34px;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(calc(1 + var(--level, 0) * 0.3));
+}
+
+.core {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #b3acd9 0%, #8e85bf 45%, #5d5698 100%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.45),
+    0 10px 24px rgba(48, 59, 86, 0.25);
+  transform: scale(calc(1 + var(--level, 0) * 0.12));
+  transition: transform var(--spring-interactive-duration) var(--spring-interactive);
+}
+
+.idle .ring,
+.idle .core {
+  transform: none;
+}
+
+.label {
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-primary);
+}
