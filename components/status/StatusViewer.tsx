@@ -167,13 +167,15 @@ export function StatusViewer({ stories, startId, origin, onSeen, onClose }: Prop
           className={`${styles.stage} ${direction === 1 ? styles.fromRight : styles.fromLeft}`}
         >
           {current.kind === "photo" ? (
-            <>
-              <img className={styles.backdrop} src={current.image} alt="" aria-hidden draggable={false} />
-              <figure className={styles.photoCard}>
-                <img src={current.image} alt={current.caption ?? `${story.name}'s photo`} draggable={false} />
-                {current.caption && <figcaption>{current.caption}</figcaption>}
-              </figure>
-            </>
+            <figure className={styles.photo}>
+              <img
+                src={current.image}
+                alt={current.caption ?? `${story.name}'s photo`}
+                draggable={false}
+                style={{ animationPlayState: paused ? "paused" : "running" }}
+              />
+              {current.caption && <figcaption>{current.caption}</figcaption>}
+            </figure>
           ) : (
             <div className={`${styles.textStatus} ${current.tone === "plum" ? styles.plum : styles.brand}`}>
               <p>{current.text}</p>

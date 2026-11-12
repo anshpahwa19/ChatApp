@@ -50,7 +50,7 @@ export const stories: Story[] = [
     image: "/figma/story-yoga.jpg",
     unseen: true,
     items: [
-      { id: "yoga-1", kind: "photo", image: "/figma/story-yoga.jpg", caption: "Sunset flow by the water 🌅", time: "12m ago" },
+      { id: "yoga-1", kind: "photo", image: "/status/yoga.jpg", caption: "Sunset flow by the water 🌅", time: "12m ago" },
       { id: "yoga-2", kind: "text", text: "Day 30 of morning yoga. Showing up is the hard part 🧘", tone: "brand", time: "9m ago" },
     ],
   },
@@ -58,7 +58,7 @@ export const stories: Story[] = [
     id: "dono",
     name: "Dono",
     image: "/figma/story-dono.jpg",
-    items: [{ id: "dono-1", kind: "photo", image: "/figma/story-dono.jpg", caption: "New headshots are in 📸", time: "1h ago" }],
+    items: [{ id: "dono-1", kind: "photo", image: "/status/dono.jpg", caption: "First night out with the new camera 📸", time: "1h ago" }],
   },
   {
     id: "scott",
@@ -66,20 +66,20 @@ export const stories: Story[] = [
     image: "/figma/story-scott.jpg",
     items: [
       { id: "scott-1", kind: "text", text: "Who's in for five-a-side on Saturday? ⚽", tone: "plum", time: "3h ago" },
-      { id: "scott-2", kind: "photo", image: "/figma/story-scott.jpg", time: "2h ago" },
+      { id: "scott-2", kind: "photo", image: "/status/scott.jpg", caption: "Pitch is booked. Saturday, 10am ⚽", time: "2h ago" },
     ],
   },
   {
     id: "sarah",
     name: "Sarah",
     image: "/figma/story-sarah.jpg",
-    items: [{ id: "sarah-1", kind: "photo", image: "/figma/story-sarah.jpg", caption: "Coffee and good news ☕", time: "Yesterday" }],
+    items: [{ id: "sarah-1", kind: "photo", image: "/status/sarah.jpg", caption: "Coffee and good news ☕", time: "Yesterday" }],
   },
   {
     id: "mike",
     name: "Mike",
     image: "/figma/story-mike.jpg",
-    items: [{ id: "mike-1", kind: "photo", image: "/figma/story-mike.jpg", caption: "Back at it 💪", time: "Yesterday" }],
+    items: [{ id: "mike-1", kind: "photo", image: "/status/mike.jpg", caption: "Back at it 💪", time: "Yesterday" }],
   },
 ];
 

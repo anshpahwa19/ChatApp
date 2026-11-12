@@ -10,13 +10,13 @@
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  animation: viewerIn 420ms var(--ease-out) both;
 }
 
 /* Images must not start a native drag, which would cancel the swipe-down gesture. */
 .root img {
   -webkit-user-drag: none;
   pointer-events: none;
-  animation: viewerIn 420ms var(--ease-out) both;
 }
 
 .closing {
@@ -90,49 +90,55 @@
   }
 }
 
-/* Photo statuses: the photo as a card over a blurred, darkened copy of itself. */
-.backdrop {
+/* Photo statuses: the HD photo fills the screen edge to edge, with a slow drift
+   (paused with the status) and soft scrims so the header, caption and reply bar stay legible. */
+.photo {
   position: absolute;
-  inset: -48px;
-  width: calc(100% + 96px);
-  height: calc(100% + 96px);
-  object-fit: cover;
-  filter: blur(32px) saturate(1.25) brightness(0.55);
-  transform: scale(1.05);
-}
-
-.photoCard {
-  position: absolute;
-  top: calc(var(--sb) + 92px);
-  bottom: 96px;
-  left: 12px;
-  right: 12px;
+  inset: 0;
   margin: 0;
-  border-radius: 28px;
   overflow: hidden;
-  box-shadow:
-    0 0 0 0.5px rgba(255, 255, 255, 0.18),
-    0 24px 60px rgba(0, 0, 0, 0.45);
 }
 
-.photoCard img {
+.photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform-origin: 50% 60%;
+  animation: drift 6s linear forwards;
 }
 
-.photoCard figcaption {
+@keyframes drift {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.photo::after {
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 48px 20px 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  height: 240px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.photo figcaption {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 88px;
+  z-index: 1;
   font-weight: 600;
   font-size: 17px;
   line-height: 24px;
   text-align: center;
   text-wrap: balance;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
 /* Text statuses: large type on a brand gradient, crisp at any size. */
@@ -176,8 +182,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 170px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
+  height: calc(var(--sb) + 150px);
+  /* Strong enough for the name and time to stay legible over bright photos. */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.2) 55%, rgba(0, 0, 0, 0));
   pointer-events: none;
 }
 
