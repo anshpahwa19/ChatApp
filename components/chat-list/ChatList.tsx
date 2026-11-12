@@ -6,6 +6,7 @@ import { glassPress } from "@/lib/useGlassPress";
 import { AiAssistant } from "@/components/ai/AiAssistant";
 import { ChatSummary } from "@/components/ai/ChatSummary";
 import { BottomSheet } from "@/components/ui/BottomSheet";
+import { StatusBar } from "@/components/ui/StatusBar";
 import { ChatRow } from "./ChatRow";
 import { CompactHeader } from "./CompactHeader";
 import { FilterChips, type Filter } from "./FilterChips";
@@ -71,6 +72,7 @@ export function ChatList() {
       <div ref={contentRef} className={styles.content}>
         <div className={styles.scroller} onScroll={onScroll}>
           <header className={styles.hero}>
+            <StatusBar tone="white" className={styles.heroStatus} />
             <div className={styles.heroInner}>
               <div className={styles.titleRow}>
                 <h1 className={styles.title}>Chats</h1>

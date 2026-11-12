@@ -30,11 +30,17 @@
   display: none;
 }
 
-/* Large header: large title row and stories (node 41:2131 minus its 53px status bar). */
+/* Large header: status bar, large title row and stories (node 41:2131, 223px tall). */
 .hero {
   position: relative;
-  height: calc(170px + var(--safe-top));
-  padding: calc(12px + var(--safe-top)) 1px 16px 20px;
+  height: 223px;
+  padding: 65px 1px 16px 20px;
+}
+
+.heroStatus {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .heroInner {
@@ -123,7 +129,7 @@
 /* White list panel: 20px radius, 16px padding, chips then rows 12px below. */
 .panel {
   position: relative;
-  min-height: calc(100% - 170px - var(--safe-top));
+  min-height: calc(100% - 223px);
   margin: 0 0 0 1px;
   padding: 16px 16px 132px;
   border-radius: 20px 20px 0 0;

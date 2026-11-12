@@ -1,3 +1,4 @@
+import { StatusBar } from "@/components/ui/StatusBar";
 import { glassPress } from "@/lib/useGlassPress";
 import styles from "./CompactHeader.module.css";
 
@@ -10,6 +11,7 @@ export function CompactHeader({ visible }: { visible: boolean }) {
   return (
     <div className={`${styles.header} ${visible ? styles.visible : ""}`} aria-hidden={!visible}>
       <div className={styles.edge} />
+      <StatusBar tone="dark" className={styles.status} />
       <div className={styles.row}>
         <div className={styles.lead}>
           {/* 40px tinted circle with three story avatars (node 41:2482). */}

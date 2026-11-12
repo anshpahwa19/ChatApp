@@ -4,11 +4,11 @@
   left: 0;
   right: 0;
   z-index: 5;
-  height: calc(51px + var(--safe-top));
+  height: 104px;
   pointer-events: none;
 }
 
-/* Hard scroll-edge effect: a pale frost (blur 6 under ~85% fill) that ends crisply under the row.
+/* Hard scroll-edge effect: a pale frost (blur 6 under ~85% fill) that ends crisply at y=104.
    Sampled from the render: #f7fffa at the top, a touch darker just above the edge. */
 .edge {
   position: absolute;
@@ -20,18 +20,25 @@
   transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
 }
 
+.status {
+  position: relative;
+  opacity: 0;
+  transition: opacity var(--spring-smooth-duration) var(--spring-smooth);
+}
+
 .visible {
   pointer-events: auto;
 }
 
-.visible .edge {
+.visible .edge,
+.visible .status {
   opacity: 1;
 }
 
-/* Row at x=18, 5px below the top: 360 x 40. */
+/* Row at (18, 58): 360 x 40. */
 .row {
   position: absolute;
-  top: calc(5px + var(--safe-top));
+  top: 58px;
   left: 18px;
   right: 15px;
   display: flex;

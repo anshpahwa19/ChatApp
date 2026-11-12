@@ -43,9 +43,6 @@
   --stroke-disabled: #e5e7eb;
   --stroke-50: rgba(226, 232, 240, 0.5);
 
-  /* Top inset that replaces the mocked iOS status bar: the phone's own safe area. */
-  --safe-top: env(safe-area-inset-top, 0px);
-
   --radius-device: 36px;
   --radius-bubble: 12px;
   --radius-bubble-tail: 4px;

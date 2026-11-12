@@ -22,8 +22,8 @@ type Props = {
 
 /** Floating insets of the medium detent (Figma "Attachment Options" at x=6, 5px from the bottom). */
 const INSET = { left: 6, right: 5, bottom: 5 };
-/** Distance from the top of the screen to the large detent. */
-const LARGE_TOP = 12;
+/** Distance from the top of the screen to the large detent (below the status bar). */
+const LARGE_TOP = 58;
 /** Dim behind the sheet (Figma "Rectangle 161124780": black at 30%). */
 const DIM = 0.3;
 
