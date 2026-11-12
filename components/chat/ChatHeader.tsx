@@ -1,7 +1,6 @@
 "use client";
 
 import type { Conversation } from "@/lib/data";
-import { StatusBar } from "@/components/ui/StatusBar";
 import { useNav } from "@/components/nav/Navigator";
 import { glassPress } from "@/lib/useGlassPress";
 import styles from "./ChatHeader.module.css";
@@ -11,7 +10,6 @@ export function ChatHeader({ conversation }: { conversation: Conversation }) {
   const nav = useNav();
   return (
     <header className={styles.header}>
-      <StatusBar tone="dark" />
       <div className={styles.row}>
         <div className={styles.left}>
           <button

@@ -15,8 +15,8 @@
   align-items: center;
   justify-content: space-between;
   height: 56px;
-  /* Figma places the header row at y=49, overlapping the 53px status bar by 4px. */
-  margin-top: -4px;
+  /* Figma's row sits 4px into its 53px status bar; without the bar it starts at the safe area. */
+  margin-top: var(--safe-top);
   padding: 4px 16px;
   pointer-events: auto;
 }
