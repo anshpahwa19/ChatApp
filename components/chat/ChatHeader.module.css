@@ -141,3 +141,41 @@
   align-items: center;
   gap: 8px;
 }
+
+/* Opening: the glass controls pop in one after another as the chat is pushed. */
+.left > *,
+.actions > * {
+  animation: glassIn var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
+}
+
+.left > *:nth-child(1) {
+  animation-delay: 60ms;
+}
+
+.left > *:nth-child(2) {
+  transform-origin: 0 50%;
+  animation-name: pillIn;
+  animation-delay: 110ms;
+}
+
+.actions > *:nth-child(1) {
+  animation-delay: 170ms;
+}
+
+.actions > *:nth-child(2) {
+  animation-delay: 220ms;
+}
+
+@keyframes glassIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+@keyframes pillIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0.5) scaleY(0.8);
+  }
+}

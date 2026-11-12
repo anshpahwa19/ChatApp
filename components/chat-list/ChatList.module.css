@@ -202,3 +202,43 @@
     transform: scale(0.3);
   }
 }
+
+/* ---- Scroll-driven motion -----------------------------------------------------
+   Rows rise and settle as they scroll up from behind the tab bar, and shrink away as
+   they slide under the inline header. Each row has its own view timeline. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .list > li {
+      view-timeline: --row block;
+    }
+
+    .list > li > a > * {
+      animation:
+        rowEnter linear both,
+        rowExit linear both;
+      animation-timeline: --row, --row;
+      animation-range:
+        entry 0% entry 100%,
+        exit 0% exit 100%;
+    }
+
+    /* The large header drifts at half speed (parallax) and the stories stagger behind the title. */
+    .hero {
+      transform: translateY(calc(var(--scroll, 0) * 0.45px));
+    }
+  }
+}
+
+@keyframes rowEnter {
+  from {
+    opacity: 0.15;
+    transform: translateY(28px) scale(0.92);
+  }
+}
+
+@keyframes rowExit {
+  to {
+    opacity: 0.2;
+    transform: scale(0.94);
+  }
+}

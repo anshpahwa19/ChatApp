@@ -42,6 +42,7 @@ export function ChatList() {
     if (el) {
       // Scroll-linked like UIKit's large title: 0 at rest, 1 once it has gone under the bar.
       el.style.setProperty("--p", String(Math.min(1, Math.max(0, top / TITLE_FADE))));
+      el.style.setProperty("--scroll", String(Math.min(260, Math.max(0, top))));
       // Pulling down past the top (rubber-band overscroll) stretches the large title.
       el.style.setProperty("--pull", String(Math.max(0, -top)));
     }
