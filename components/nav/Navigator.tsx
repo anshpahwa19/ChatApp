@@ -29,10 +29,9 @@ const DIM = 0.1;
 const EDGE = 24;
 
 /**
- * UINavigationController-style stack: the chat list underneath and, when a chat is open,
- * the chat pushed on top. Push slides the chat in from the right while the list shifts
- * left under a dim; pop reverses it. Both are one critically damped spring that a back
- * swipe can grab mid-flight, follow with the finger, and release with its velocity.
+ * Navigation stack: the chat list underneath and, when a chat is open, the chat on top.
+ * Opening a chat and going back switch screens instantly. A back swipe still drags the
+ * chat off with the finger (list shifting under a dim) and finishes on a spring.
  */
 export function Navigator() {
   const { chatId, push, back } = useAppRoute();
@@ -76,18 +75,14 @@ export function Navigator() {
       if (chatId !== top) setTop(chatId);
       return;
     }
+    // Back (button or browser history) switches to the list instantly.
     if (top && !popping.current) {
-      popping.current = true;
-      p.to(0, springs.navigation).then(() => {
-        if (popping.current) {
-          popping.current = false;
-          setTop(null);
-        }
-      });
+      p.set(0);
+      setTop(null);
     }
   }, [chatId, top]);
 
-  // A freshly mounted chat starts off-screen and springs in (unless it was a deep link).
+  // A freshly mounted chat appears in place.
   const firstRender = useRef(true);
   useLayoutEffect(() => {
     const p = progress.current!;
@@ -98,9 +93,8 @@ export function Navigator() {
     if (firstRender.current && p.value === 1) {
       apply(1);
     } else if (!popping.current) {
-      if (p.value >= 1) p.set(0);
-      apply(p.value);
-      p.to(1, springs.navigation);
+      // Opening a chat is instant (no push slide).
+      p.set(1);
     }
     firstRender.current = false;
   }, [top, apply]);

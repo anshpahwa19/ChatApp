@@ -125,10 +125,8 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
             {messages.map((m, i) => (
               <li
                 key={m.id}
-                className={`${m.kind === "date" ? styles.dateItem : ""} ${i >= initialCount.current ? styles.sent : styles.intro}`}
+                className={`${m.kind === "date" ? styles.dateItem : ""} ${i >= initialCount.current ? styles.sent : ""}`}
                 data-from={m.kind === "date" ? undefined : m.from}
-                // Opening choreography: the history cascades in while the chat slides into place.
-                style={{ "--d": `${140 + i * 45}ms` } as React.CSSProperties}
               >
                 {m.kind === "date" ? <span className={styles.date}>{m.label}</span> : <MessageBubble message={m} />}
               </li>

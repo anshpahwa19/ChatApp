@@ -12,42 +12,6 @@
   gap: 8px;
   padding: 8px 16px;
   transform: translate3d(0, calc(var(--kb, 0) * -311px), 0);
-  animation: composerIn var(--spring-snappy-duration) 160ms var(--spring-snappy) backwards;
-}
-
-/* Opening: the composer rises into place under the conversation. */
-@keyframes composerIn {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 60px, 0);
-  }
-}
-
-/* Its pieces pop in left to right. */
-.plus,
-.field,
-.ai {
-  animation: pieceIn var(--spring-bouncy-duration) var(--spring-bouncy) backwards;
-}
-
-.plus {
-  animation-delay: 220ms;
-}
-
-.field {
-  transform-origin: 0 50%;
-  animation-delay: 260ms;
-}
-
-.ai {
-  animation-delay: 320ms;
-}
-
-@keyframes pieceIn {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
 }
 
 /* + button: 44px glass circle with an SF "plus". */

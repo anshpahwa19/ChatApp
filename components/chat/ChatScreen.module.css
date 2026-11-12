@@ -133,44 +133,6 @@
   color: var(--text-secondary);
 }
 
-/* ---- Opening choreography ---------------------------------------------------
-   As the chat is pushed, each bubble springs out from its own side (theirs from the
-   left, mine from the right), dates pop, one beat after another. */
-.intro[data-from="them"] {
-  transform-origin: 0 100%;
-  animation: fromLeft var(--spring-bouncy-duration) var(--d, 0ms) var(--spring-bouncy) backwards;
-}
-
-.intro[data-from="me"] {
-  transform-origin: 100% 100%;
-  animation: fromRight var(--spring-bouncy-duration) var(--d, 0ms) var(--spring-bouncy) backwards;
-}
-
-.intro.dateItem {
-  animation: datePop var(--spring-bouncy-duration) var(--d, 0ms) var(--spring-bouncy) backwards;
-}
-
-@keyframes fromLeft {
-  from {
-    opacity: 0;
-    transform: translate3d(-36px, 18px, 0) scale(0.82);
-  }
-}
-
-@keyframes fromRight {
-  from {
-    opacity: 0;
-    transform: translate3d(36px, 18px, 0) scale(0.82);
-  }
-}
-
-@keyframes datePop {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-}
-
 /* ---- Scroll-driven motion -----------------------------------------------------
    Every message has its own view timeline: bubbles rise and settle as they scroll in
    from under the composer and recede as they slide under the header. */
