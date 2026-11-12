@@ -196,3 +196,7 @@
     transform: rotate(18deg) scale(1.15);
   }
 }
+
+:global([data-instant]) .bar {
+  animation: none;
+}

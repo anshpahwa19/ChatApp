@@ -73,3 +73,8 @@
     transform: scale(0.3);
   }
 }
+
+:global([data-instant]) .chip,
+:global([data-instant]) .badge {
+  animation: none;
+}

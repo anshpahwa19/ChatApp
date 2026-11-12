@@ -261,3 +261,11 @@
     transform: rotate(18deg) scale(1.15);
   }
 }
+
+/* Arriving from a chat: no entrance animation (filter changes still replay the rows). */
+:global([data-instant]) .title,
+:global([data-instant]) .actions,
+:global([data-instant]) .aiFab,
+:global([data-instant]) .list:not(:global(.list-replay)) > li {
+  animation: none;
+}

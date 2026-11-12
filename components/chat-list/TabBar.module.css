@@ -117,3 +117,7 @@
   color: var(--text-primary);
   white-space: nowrap;
 }
+
+:global([data-instant]) .wrap {
+  animation: none;
+}

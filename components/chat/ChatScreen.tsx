@@ -6,6 +6,7 @@ import { AiAssistant } from "@/components/ai/AiAssistant";
 import { ChatSummary } from "@/components/ai/ChatSummary";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
+import { useInstantEntrance } from "@/lib/navigation";
 import { AttachmentOptions } from "./AttachmentOptions";
 import { ChatHeader } from "./ChatHeader";
 import { Composer } from "./Composer";
@@ -29,6 +30,7 @@ const SHEET_LABEL: Record<SheetView, string> = {
 };
 
 export function ChatScreen({ conversation }: { conversation: Conversation }) {
+  const instant = useInstantEntrance();
   const [messages, setMessages] = useState<Message[]>(conversation.messages);
   const [sheet, setSheet] = useState<SheetView | null>(null);
   // Keeps the last view mounted while the sheet slides away.
@@ -74,7 +76,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
   }
 
   return (
-    <PhoneFrame className={styles.device}>
+    <PhoneFrame className={styles.device} instant={instant}>
       <img className={styles.wallpaper} src="/figma/chat-wallpaper.webp" alt="" aria-hidden />
 
       <div
@@ -88,6 +90,7 @@ export function ChatScreen({ conversation }: { conversation: Conversation }) {
               key={m.id}
               className={m.kind === "date" ? styles.dateItem : undefined}
               data-from={m.kind === "date" ? undefined : m.from}
+              data-initial={i < initialCount.current || undefined}
               // Initial history cascades in; messages sent later appear immediately.
               style={{ "--d": i < initialCount.current ? `${160 + i * 55}ms` : "0ms" } as React.CSSProperties}
             >

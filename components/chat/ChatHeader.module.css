@@ -170,3 +170,7 @@
   align-items: center;
   gap: 8px;
 }
+
+:global([data-instant]) .row > * {
+  animation: none;
+}

@@ -135,3 +135,9 @@
   line-height: 18px;
   color: var(--text-secondary);
 }
+
+/* Opening a chat from the list: no entrance animation. Messages sent later still pop in. */
+:global([data-instant]) .wallpaper,
+:global([data-instant]) .messages > li[data-initial] {
+  animation: none;
+}

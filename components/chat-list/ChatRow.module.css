@@ -155,3 +155,7 @@
 .communityBadge {
   padding: 0 4px 0 6px;
 }
+
+:global([data-instant]) :global(ul:not(.list-replay)) .badge {
+  animation: none;
+}

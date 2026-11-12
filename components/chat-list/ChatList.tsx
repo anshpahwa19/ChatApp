@@ -5,6 +5,7 @@ import { chats, stories, type SummaryRange } from "@/lib/data";
 import { AiAssistant } from "@/components/ai/AiAssistant";
 import { ChatSummary } from "@/components/ai/ChatSummary";
 import { BottomSheet } from "@/components/ui/BottomSheet";
+import { useInstantEntrance } from "@/lib/navigation";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { StatusBar } from "@/components/ui/StatusBar";
 import { ChatRow } from "./ChatRow";
@@ -18,7 +19,10 @@ import styles from "./ChatList.module.css";
 const COMPACT_HEADER_AT = 150;
 
 export function ChatList() {
+  const instant = useInstantEntrance();
   const [filter, setFilter] = useState<Filter>("all");
+  // After the first filter change the rows replay their entrance even on an instant screen.
+  const [filterChanged, setFilterChanged] = useState(false);
   const [compact, setCompact] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const [sheet, setSheet] = useState<"ai" | "summary" | null>(null);
@@ -57,7 +61,7 @@ export function ChatList() {
   }, [filter]);
 
   return (
-    <PhoneFrame className={styles.device}>
+    <PhoneFrame className={styles.device} instant={instant}>
       <div
         className={styles.scroller}
         onScroll={onScroll}
@@ -85,10 +89,17 @@ export function ChatList() {
           </div>
         </header>
 
-        <FilterChips value={filter} onChange={setFilter} unreadCount={unreadCount} />
+        <FilterChips
+          value={filter}
+          onChange={(f) => {
+            setFilterChanged(true);
+            setFilter(f);
+          }}
+          unreadCount={unreadCount}
+        />
 
         {/* Keyed by filter so the rows replay their entrance when the filter changes. */}
-        <ul key={filter} className={styles.list}>
+        <ul key={filter} className={`${styles.list} ${filterChanged ? "list-replay" : ""}`}>
           {visible.map((chat, i) => (
             <li key={chat.id} style={{ "--i": i } as React.CSSProperties}>
               {i > 0 && <div className={styles.divider} aria-hidden />}
