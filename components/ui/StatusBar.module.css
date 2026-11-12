@@ -9,6 +9,13 @@
   flex-shrink: 0;
 }
 
+/* Phones show their own status bar; the mock one only appears in the desktop phone frame. */
+@media (max-width: 499.98px) {
+  .bar {
+    display: none;
+  }
+}
+
 .white {
   color: #fff;
 }

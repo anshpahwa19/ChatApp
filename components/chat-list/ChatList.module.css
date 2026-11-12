@@ -18,8 +18,9 @@
 /* Large green header (node 1:1932). The background is the exact gradient stack from Figma. */
 .hero {
   position: relative;
-  height: 221px;
-  padding: 65px 1px 16px 20px;
+  /* 221px / 65px in Figma, which includes the 53px status bar. */
+  height: calc(168px + var(--sb));
+  padding: calc(12px + var(--sb)) 1px 16px 20px;
   border-radius: 0 0 24px 24px;
   background-image:
     url("data:image/svg+xml;utf8,<svg viewBox='0 0 394 221' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(25.558 3.3922 -4.5333 14.336 9.85 32.243)'><stop stop-color='rgba(125,168,170,1)' offset='0'/><stop stop-color='rgba(125,168,170,0.48)' offset='0.48'/><stop stop-color='rgba(125,168,170,0)' offset='1'/></radialGradient></defs></svg>"),

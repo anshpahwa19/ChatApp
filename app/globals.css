@@ -40,9 +40,22 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --press-scale: 0.94;
 
+  /* Status bar. On a real phone the OS draws its own, so the mock bar is hidden and
+     layout starts at the top (--sb: 0). In the desktop phone frame the 53px mock bar shows.
+     --hdr is the top of the floating chat-header row. */
+  --sb: 0px;
+  --hdr: 6px;
+
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-timestamp: Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 500px) {
+  :root {
+    --sb: 53px;
+    --hdr: 49px;
+  }
 }
 
 *,

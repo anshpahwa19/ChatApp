@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 5;
-  height: 113px;
+  height: calc(64px + var(--hdr));
   background: linear-gradient(to bottom, rgba(247, 255, 250, 0.95) 70%, rgba(247, 255, 250, 0));
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   height: 40px;
-  margin-top: 4px;
+  margin-top: calc(var(--hdr) - var(--sb) + 8px);
   padding: 0 15px 0 18px;
 }
 

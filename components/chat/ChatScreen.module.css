@@ -28,17 +28,17 @@
   inset: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 119px 16px 104px;
+  padding: calc(var(--hdr) + 70px) 16px 104px;
   scrollbar-width: none;
   scroll-behavior: smooth;
-  /* Messages disappear under the floating header at y=109, as in the scrolled Figma frames. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
-  mask-image: linear-gradient(to bottom, transparent 0, transparent 103px, #000 113px);
+  /* Messages disappear under the floating header (y=109 in the Figma frames, which include the status bar). */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent calc(var(--hdr) + 54px), #000 calc(var(--hdr) + 64px));
+  mask-image: linear-gradient(to bottom, transparent 0, transparent calc(var(--hdr) + 54px), #000 calc(var(--hdr) + 64px));
 }
 
 .edge {
   position: absolute;
-  top: 109px;
+  top: calc(var(--hdr) + 60px);
   left: 0;
   right: 0;
   z-index: 4;
