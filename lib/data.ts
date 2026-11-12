@@ -7,6 +7,8 @@ export type Story = {
   image: string;
   isOwn?: boolean;
   unseen?: boolean;
+  /** Full-screen status image (HD, 864 x 1536). */
+  media?: string;
   /** Shown in the status viewer. */
   time?: string;
   caption?: string;
@@ -41,11 +43,11 @@ export type ChatPreview = {
 
 export const stories: Story[] = [
   { id: "me", name: "Add Story", image: "/figma/story-add.jpg", isOwn: true },
-  { id: "yoga", name: "Yoga", image: "/figma/story-yoga.jpg", unseen: true, time: "12m ago", caption: "Sunrise flow before work 🧘" },
-  { id: "dono", name: "Dono", image: "/figma/story-dono.jpg", time: "1h ago", caption: "New headshot, thoughts?" },
-  { id: "doni", name: "Doni", image: "/figma/story-scott.jpg", time: "3h ago" },
-  { id: "sarah", name: "Sarah", image: "/figma/story-sarah.jpg", time: "5h ago", caption: "Weekend mood ☀️" },
-  { id: "mike", name: "Mike", image: "/figma/story-mike.jpg", time: "Yesterday" },
+  { id: "yoga", name: "Yoga", image: "/figma/story-yoga.jpg", unseen: true, time: "12m ago", media: "/figma/status-yoga.webp", caption: "Sunrise flow before work 🧘" },
+  { id: "dono", name: "Dono", image: "/figma/story-dono.jpg", time: "1h ago", media: "/figma/status-dono.webp", caption: "New headshot, thoughts?" },
+  { id: "doni", name: "Doni", image: "/figma/story-scott.jpg", time: "3h ago", media: "/figma/status-doni.webp", caption: "Morning fuel ☕️" },
+  { id: "sarah", name: "Sarah", image: "/figma/story-sarah.jpg", time: "5h ago", media: "/figma/status-sarah.webp" },
+  { id: "mike", name: "Mike", image: "/figma/story-mike.jpg", time: "Yesterday", media: "/figma/status-mike.webp", caption: "Above the clouds ⛰️" },
 ];
 
 export const chats: ChatPreview[] = [
