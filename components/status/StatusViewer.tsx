@@ -195,14 +195,17 @@ export function StatusViewer({ stories, startIndex, origin, frame, onClose, onSe
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      {/* Blurred full-bleed copy of the status behind the sharp card. */}
-      <img key={`bg-${story.id}`} className={styles.backdrop} src={story.media ?? story.image} alt="" aria-hidden />
-      <div className={styles.shade} aria-hidden />
 
       <figure key={story.id} className={styles.card}>
         <img className={styles.media} src={story.media ?? story.image} alt={story.caption ?? `${story.name}'s status`} />
-        {story.caption && <figcaption className={styles.caption}>{story.caption}</figcaption>}
       </figure>
+      {/* Gradients top and bottom keep the white chrome legible over any photo. */}
+      <div className={styles.shade} aria-hidden />
+      {story.caption && (
+        <p key={`c-${story.id}`} className={styles.caption}>
+          {story.caption}
+        </p>
+      )}
 
       <div className={styles.chrome}>
         <StatusBar tone="white" />
